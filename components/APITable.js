@@ -12,6 +12,8 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CustomerModal from "./CustomerModal";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import SearchBar from "material-ui-search-bar";
 
 function createData(
   no,
@@ -201,139 +203,93 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function APITable() {
+let no = 0;
+export default function APITable({ reload, setReload }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [modalShow, setModalShow] = React.useState(false);
+  const [modalAcno, setModalAcno] = React.useState("");
+  const [apis, setApis] = React.useState(null);
+  const [rows, setRows] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const rows = [
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon
-        className="cursor-pointer"
-        onClick={() => setModalShow(true)}
-      />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/dead.png" className="w-[1.5rem]" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-    createData(
-      1,
-      "Booking",
-      "https://bigazure.com/api/json_v3/shipment/create_shipment2.php",
-      764,
-      "bg_cp",
-      <img src="/alive.gif" />,
-      "2021-04-29",
-      "bg",
-      3,
-      <AddCircleOutlineIcon />
-    ),
-  ];
+  const fetchApiDetails = async () => {
+    const response = await fetch(
+      "https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_detail.php"
+    ).then((res) => res.json());
+    setApis(response);
+  };
+
+  const [originalRows, setOriginalRows] = React.useState([]);
+  const [searched, setSearched] = React.useState("");
+
+  const requestSearch = (searchedVal) => {
+    const filteredRowsNo = originalRows.filter((row) => {
+      return row.no.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    const filteredRowsName = originalRows.filter((row) => {
+      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    console.log(filteredRowsNo);
+    setRows([...new Set([...filteredRowsNo, ...filteredRowsName])]);
+  };
+  const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+  };
+
+  React.useEffect(async () => {
+    if (reload) {
+      setIsLoading(true);
+      await fetchApiDetails();
+      setIsLoading(false);
+      setReload(false);
+    }
+  }, [reload]);
+
+  React.useEffect(() => {
+    if (apis) {
+      console.log(apis);
+      setOriginalRows([]);
+      let newRows = [];
+      apis.map((a) => {
+        newRows.push(
+          createData(
+            a["api_no"],
+            a["api_name"],
+            a["api_url"],
+            a["Total Hits"],
+            a["db_name"],
+            a["Alive/Dead"] === "1" ? (
+              <img src="/alive.gif" />
+            ) : (
+              <img src="/dead.png" className="w-[1.5rem]" />
+            ),
+            a["Last Used"],
+            a["server"],
+            a["version"],
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["acno"]);
+                setModalShow(true);
+              }}
+            />
+          )
+        );
+      });
+      setRows(newRows);
+      setOriginalRows(newRows);
+      setIsLoading(false);
+    }
+  }, [apis]);
+
+  React.useEffect(async () => {
+    await fetchApiDetails();
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -354,62 +310,79 @@ export default function APITable() {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={"medium"}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+    <div>
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Paper className={classes.paper}>
+          <div className="flex justify-between items-center mb-[1rem]">
+            <SearchBar
+              value={searched}
+              onChange={(searchVal) => requestSearch(searchVal)}
+              onCancelSearch={() => cancelSearch()}
             />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+          </div>
+          <TableContainer>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={"medium"}
+              aria-label="enhanced table"
+            >
+              <EnhancedTableHead
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow hover tabIndex={-1} key={row.no}>
-                      <TableCell>{row.no}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.url}</TableCell>
-                      <TableCell>{row.hits}</TableCell>
-                      <TableCell>{row.db}</TableCell>
-                      <TableCell>{row.isAlive}</TableCell>
-                      <TableCell>{row.lastUsed}</TableCell>
-                      <TableCell>{row.server}</TableCell>
-                      <TableCell>{row.version}</TableCell>
-                      <TableCell>{row.customer}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <CustomerModal show={modalShow} onHide={() => setModalShow(false)} />
+                    return (
+                      <TableRow hover tabIndex={-1} key={row.no}>
+                        <TableCell>{row.no}</TableCell>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.url}</TableCell>
+                        <TableCell>{row.hits}</TableCell>
+                        <TableCell>{row.db}</TableCell>
+                        <TableCell>{row.isAlive}</TableCell>
+                        <TableCell>{row.lastUsed}</TableCell>
+                        <TableCell>{row.server}</TableCell>
+                        <TableCell>{row.version}</TableCell>
+                        <TableCell>{row.customer}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </Paper>
+      )}
+      <CustomerModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        acno={modalAcno}
+      />
     </div>
   );
 }
