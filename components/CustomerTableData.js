@@ -253,7 +253,6 @@ export default function CustomerTableData({ reload, setReload }) {
 
   React.useEffect(() => {
     if (apis) {
-      console.log(apis);
       setOriginalRows([]);
       let newRows = [];
       apis.map((a) => {

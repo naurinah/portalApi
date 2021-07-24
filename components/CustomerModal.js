@@ -172,7 +172,6 @@ export default function CustomerModal({ show, onHide, acno }) {
   const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
-    
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
     ).then((res) => res.json());
     newRows = [];

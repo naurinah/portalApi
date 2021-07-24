@@ -167,8 +167,6 @@ export default function Modals({ show, onHide, acno }) {
   const ac = "";
 
   const fetchAccount = async (ac) => {
-    console.log('aaa');
-    console.log(`http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`);
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
@@ -202,7 +200,6 @@ export default function Modals({ show, onHide, acno }) {
     };
 
     useEffect(async () => {
-      console.log(acno);
       if (acno !== undefined) {
         setIsLoading(true);
         setRows([]);
