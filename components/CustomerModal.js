@@ -173,7 +173,7 @@ export default function CustomerModal({ show, onHide, acno }) {
     let newRows = rows;
     const response = await fetch(
     
-      `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
     ).then((res) => res.json());
     newRows = [];
     if (newRows === []) {

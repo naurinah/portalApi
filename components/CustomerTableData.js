@@ -219,7 +219,7 @@ export default function CustomerTableData({ reload, setReload }) {
 
   const fetchApiDetails = async () => {
     const response = await fetch(
-      `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerDetail.php`
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerDetail.php`
     ).then((res) => res.json());
     setApis(response);
   };

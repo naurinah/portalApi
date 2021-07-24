@@ -171,7 +171,7 @@ export default function Modals({ show, onHide, acno }) {
     console.log(`http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`);
     let newRows = rows;
     const response = await fetch(
-      `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
     ).then((res) => res.json());
     newRows = [];
     if (newRows === []) {
