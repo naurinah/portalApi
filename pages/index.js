@@ -4,6 +4,7 @@ import Bookings from "../components/Bookings";
 import CustomerDetails from "../components/CustomerDetails";
 import Header from "../components/Header";
 import StatusBar from "../components/StatusBar";
+// import AllCustomerDetailApi from "../components/AllCustomerDetailApi";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <Bookings />
       <ApiDetails />
       <CustomerDetails />
+      {/* <AllCustomerDetailApi/> */}
     </div>
   );
 };

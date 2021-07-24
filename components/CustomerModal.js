@@ -15,8 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-function createData(account, title, cell) {
-  return { account, title, cell };
+function createData(api_no,api_name,api_url,total_Hits,Last_Hit) {
+  return { api_no,api_name,api_url,total_Hits,Last_Hit };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -46,44 +46,28 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
+ 
   {
-    id: "account",
+    id: "api_no",
     numeric: false,
     disablePadding: false,
-    label: "Account",
+    label: "CUSTOMER NO",
   },
+  { id: "api_name", numeric: false, disablePadding: false, label: "NAME" },
+  { id: "api_url", numeric: false, disablePadding: false, label: "CUSTOMER URL" },
   {
-    id: "title",
+    id: "total_Hits",
     numeric: false,
     disablePadding: false,
-    label: "Account Title",
+    label: "TOTAL HITS",
   },
-  // { id: "name", numeric: false, disablePadding: false, label: "Name" },
-  // { id: "address", numeric: false, disablePadding: false, label: "Address" },
   {
-    id: "cell",
+    id: "Last_Hit",
     numeric: false,
     disablePadding: false,
-    label: "Cell",
-  },
-  // {
-  //   id: "email",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "Email",
-  // },
-  // {
-  //   id: "ntn",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "NTN",
-  // },
-  // {
-  //   id: "cnic",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "CNIC",
-  // },
+    label: "LAST HIT",
+  }
+
 ];
 
 function EnhancedTableHead(props) {
@@ -180,54 +164,52 @@ export default function CustomerModal({ show, onHide, acno }) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+  const [originalRows, setOriginalRows] = React.useState([]);
   const [apis, setApis] = React.useState(null);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
+  const ac = "";
   const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
-      `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
+    
+      `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
     ).then((res) => res.json());
-    console.log(response.detail);
+    newRows = [];
     if (newRows === []) {
+      response.map((a) => {
       newRows = [
         createData(
-          response.detail[0]["Account"],
-          response.detail[0]["AccountTitle"] === null
-            ? "---"
-            : response.detail[0]["AccountTitle"],
-          // response.detail[0]["Name"],
-          // response.detail[0]["Address"],
-          response.detail[0]["Cell"] === null
-            ? "---"
-            : response.detail[0]["Cell"]
-          // response.detail[0]["Email"],
-          // response.detail[0]["NTN"],
-          // response.detail[0]["CNIC"]
+          a["api_no"],
+          a["api_name"],
+          a["api_url"],
+          a["total_Hits"],
+          a["Last_Hit"]
+          
         ),
       ];
+    });
     } else {
+      response.map((a) => {
       newRows.push(
         createData(
-          response.detail[0]["Account"],
-          response.detail[0]["AccountTitle"] === null
-            ? "---"
-            : response.detail[0]["AccountTitle"],
-          // response.detail[0]["Name"],
-          // response.detail[0]["Address"],
-          response.detail[0]["Cell"] === null
-            ? "---"
-            : response.detail[0]["Cell"]
-          // response.detail[0]["Email"],
-          // response.detail[0]["NTN"],
-          // response.detail[0]["CNIC"]
-        )
+
+            a["api_no"],
+            a["api_name"],
+            a["api_url"],
+            a["total_Hits"],
+            a["Last_Hit"]
+          
+        ),
       );
+    })
     }
+
     setRows(newRows);
+    setOriginalRows(newRows);
+    setIsLoading(false);
   };
+
   useEffect(async () => {
     if (acno !== undefined) {
       setIsLoading(true);
@@ -244,10 +226,6 @@ export default function CustomerModal({ show, onHide, acno }) {
       setIsLoading(false);
     }
   }, [acno]);
-
-  useEffect(() => {
-    console.log("rows", rows);
-  }, [rows]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -283,7 +261,7 @@ export default function CustomerModal({ show, onHide, acno }) {
       <Modal.Body>
         {isLoading ? (
           <div className="flex justify-center items-center">
-            <CircularProgress />
+            <CircularProgress/>
           </div>
         ) : (
           <Paper className={classes.paper}>
@@ -308,16 +286,14 @@ export default function CustomerModal({ show, onHide, acno }) {
                       const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
-                        <TableRow hover tabIndex={-1} key={row.account}>
-                          <TableCell>{row.account}</TableCell>
-                          <TableCell>{row.title}</TableCell>
-                          {/* <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.address}</TableCell> */}
-                          <TableCell>{row.cell}</TableCell>
-                          {/* <TableCell>{row.email}</TableCell>
-                          <TableCell>{row.ntn}</TableCell>
-                          <TableCell>{row.cnic}</TableCell> */}
+                        <TableRow hover tabIndex={-1} key={row.ac}>
+                          <TableCell>{row.api_no}</TableCell>
+                          <TableCell>{row.api_name}</TableCell>
+                          <TableCell>{row.api_url}</TableCell>
+                          <TableCell>{row.total_Hits}</TableCell>
+                          <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
+                        
                       );
                     })}
                   {emptyRows > 0 && (
