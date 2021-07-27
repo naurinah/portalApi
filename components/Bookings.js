@@ -66,7 +66,7 @@ const Bookings = () => {
         <ProgressBar
           variant="success"
           now={(openApi * 100) / total}
-          label={parseInt((openApi * 100) / total) + "%"}
+          label={Math.round(parseFloat((openApi * 100) / total)) + "%"}
           className="flex-1"
         />
         <div className="flex flex-col items-center justify-center  w-[6rem]">
@@ -84,8 +84,9 @@ const Bookings = () => {
         <ProgressBar
           variant="info"
           now={(wordpress * 100) / total}
-          label={parseInt((wordpress * 100) / total) + "%"}
+          label={Math.round(parseFloat((wordpress * 100) / total)) + "%"}
           className="flex-1"
+         
         />
         <div className="flex flex-col items-center justify-center  w-[6rem]">
           <p className="text-sm text-gray-600 mb-1">WORDPRESS</p>
@@ -102,7 +103,7 @@ const Bookings = () => {
         <ProgressBar
           variant="danger"
           now={(shopify * 100) / total}
-          label={parseInt((shopify * 100) / total) + "%"}
+          label={Math.round(parseFloat((shopify * 100) / total)) + "%"}
           className="flex-1"
         />
         <div className="flex flex-col items-center justify-center w-[6rem]">

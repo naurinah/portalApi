@@ -18,6 +18,7 @@ const Home = () => {
       <StatusBar />
       <Bookings />
       <ApiDetails />
+     
       <CustomerDetails />
       {/* <AllCustomerDetailApi/> */}
     </div>

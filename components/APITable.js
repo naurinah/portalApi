@@ -52,7 +52,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -68,52 +68,19 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: "no",
-    numeric: false,
-    disablePadding: false,
-    label: "API NO",
-  },
-  { id: "name", numeric: false, disablePadding: false, label: "API NAME" },
-  { id: "url", numeric: false, disablePadding: false, label: "API URL" },
-  { id: "hits", numeric: false, disablePadding: false, label: "TOTAL HITS" },
-  {
-    id: "db",
-    numeric: false,
-    disablePadding: false,
-    label: "DB",
-  },
-  {
-    id: "isAlive",
-    numeric: false,
-    disablePadding: false,
-    label: "ALIVE/DEAD",
-  },
-  {
-    id: "lastUsed",
-    numeric: false,
-    disablePadding: false,
-    label: "LAST USED",
-  },
-  {
-    id: "server",
-    numeric: false,
-    disablePadding: false,
-    label: "SERVER",
-  },
-  {
-    id: "version",
-    numeric: false,
-    disablePadding: false,
-    label: "VERSION",
-  },
-  {
-    id: "customer",
-    numeric: false,
-    disablePadding: false,
-    label: "CUSTOMERS",
-  },
+  {id: "no",numeric: true,disablePadding: false,label: "API NO"},
+  {id: "name", numeric: false, disablePadding: false, label: "API NAME" },
+  {id: "url", numeric: false, disablePadding: false, label: "API URL" },
+  {id: "hits", numeric: true, disablePadding: false, label: "TOTAL HITS" },
+  {id: "db",numeric: false,disablePadding: false,label: "DB"},
+  {id: "isAlive",numeric: false,disablePadding: false,label: "ALIVE/DEAD"},
+  {id: "lastUsed",numeric: false,disablePadding: false,label: "LAST USED"},
+  {id: "server",numeric: false,disablePadding: false,label: "SERVER"},
+  {id: "version",numeric: false,disablePadding: false,label: "VERSION"},
+  {id: "customer",numeric: false,disablePadding: false,label: "CUSTOMERS"},
 ];
+
+
 
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, rowCount, onRequestSort } = props;
@@ -126,20 +93,20 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}
+          key={headCell.id}
+          align={headCell.numeric ? 'right' : 'left'}
+          padding={headCell.disablePadding ? 'none' : 'normal'}
+          sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -152,12 +119,20 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-
   onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
+
+/*EnhancedTableHead.propTypes = {
+  classes: PropTypes.object.isRequired,
+ onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};*/
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -209,7 +184,7 @@ export default function APITable({ reload, setReload }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalAcno, setModalAcno] = React.useState("");
   const [apis, setApis] = React.useState(null);
@@ -296,6 +271,35 @@ export default function APITable({ reload, setReload }) {
     setOrderBy(property);
   };
 
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -304,9 +308,16 @@ export default function APITable({ reload, setReload }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  
+   
 
   return (
     <div>
@@ -338,6 +349,7 @@ export default function APITable({ reload, setReload }) {
                 rowCount={rows.length}
               />
               <TableBody>
+                
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
@@ -367,7 +379,7 @@ export default function APITable({ reload, setReload }) {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[25, 50, 100,150]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}
@@ -382,6 +394,7 @@ export default function APITable({ reload, setReload }) {
         onHide={() => setModalShow(false)}
         acno={modalAcno}
       />
+       {/* <AcnoDetails/> */}
     </div>
   );
 }

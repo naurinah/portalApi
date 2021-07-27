@@ -1,6 +1,7 @@
 import { Button } from "@material-ui/core";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
+import {BrowserRouter as Router,Link,Route} from 'react-router-dom';
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,6 +15,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 function createData(acno, total_Hits, Last_Hit) {
   return { acno, total_Hits, Last_Hit };
@@ -159,7 +161,7 @@ export default function Modals({ show, onHide, acno }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [originalRows, setOriginalRows] = React.useState([]);
   const [apis, setApis] = React.useState(null);
   const [rows, setRows] = React.useState([]);
@@ -233,6 +235,7 @@ export default function Modals({ show, onHide, acno }) {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    
 
   return (
     <Modal
@@ -276,7 +279,9 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <TableCell>{row.acno}</TableCell>
+                          <TableCell className="cursor-pointer">
+                            <a href="#" >
+                            {row.acno}</a></TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
@@ -291,7 +296,7 @@ export default function Modals({ show, onHide, acno }) {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[25, 50, 100,150]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}

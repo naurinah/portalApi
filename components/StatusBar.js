@@ -60,12 +60,12 @@ const StatusBar = () => {
           </div>
         </div>
         {/* Shipment */}
-        <div className="bg-white min-h-[7rem] w-[18rem] flex flex-1 items-center rounded-md shadow-md border-b-4 border-[#4191ff]  p-2">
+        <div className="bg-white min-h-[7rem] w-[18rem] flex flex-1 items-center rounded-md shadow-md border-b-4 border-[#4191ff]  p-4">
           <div className="bg-[#4191ff] h-12 w-12 rounded-full flex items-center justify-center mx-4 ">
             <PermIdentityIcon className="text-white" />
           </div>
           <div>
-            <p className="text-sm text-gray-600 mb-1">NEW CUSTOMERS</p>
+            <p className="text-sm text-gray-600 mb-1 ">NEW CUSTOMERS TODAY</p>
             <h2 className="text-[#4191ff] font-bold text-4xl">
               <CurrencyFormat
                 value={newCustomers}
