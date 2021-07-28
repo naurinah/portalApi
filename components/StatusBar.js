@@ -65,7 +65,7 @@ const StatusBar = () => {
             <PermIdentityIcon className="text-white" />
           </div>
           <div>
-            <p className="text-sm text-gray-600 mb-1 ">NEW CUSTOMERS TODAY</p>
+            <p className="text-sm text-gray-600 mb-1 ">NEW CUSTOMERS (This Week)</p>
             <h2 className="text-[#4191ff] font-bold text-4xl">
               <CurrencyFormat
                 value={newCustomers}
