@@ -21,8 +21,8 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-function createData(acno, total_Hits, Last_Hit) {
-  return { acno, total_Hits, Last_Hit };
+function createData(acno, total_Hits, Last_Hit,action) {
+  return { acno, total_Hits, Last_Hit,action };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -71,10 +71,10 @@ const headCells = [
     label: "LAST HIT",
   },
    {
-    id: "customer",
+    id: "action",
     numeric: false,
     disablePadding: false,
-    label: "HIT",
+    label: "Action",
   },
 ];
 
@@ -190,7 +190,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            a["customer"],
+            a["action"],
           )
           ];
         });
@@ -201,7 +201,13 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-        a["customer"],
+        <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["acno"]);
+                setModalShow(true);
+              }}
+            />
       ),
     );
   })
@@ -293,7 +299,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.customer}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                           <Router><TableCell>
                            <Link  to={"/user/"+row.customer}>{row.customer}</Link>
                             </TableCell>
