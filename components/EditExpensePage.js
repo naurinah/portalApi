@@ -59,14 +59,16 @@ export default function EditExpensePage() {
     const response = await fetch(
       `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
     ).then((res) => res.json());
+    console.log(response);
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows = [createData(a.acno, a.total_Hits, a.Last_Hit)];
+        newRows = [createData(a.name, a.city, a.cell,a.email)];
+        
       });
     } else {
       response.map((a) => {
-        newRows.push(createData(a.acno, a.total_Hits, a.Last_Hit));
+        newRows.push(createData(a.name, a.city, a.cell,a.email));
       });
     }
 
