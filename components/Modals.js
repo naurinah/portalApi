@@ -184,6 +184,13 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["api_no"]);
+                setModalShow(true);
+              }}
+            />
           )
           ];
         });
@@ -194,6 +201,13 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
+        <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["api_no"]);
+                setModalShow(true);
+              }}
+            />
       ),
     );
   })
@@ -292,6 +306,7 @@ export default function Modals({ show, onHide, acno }) {
                             </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
