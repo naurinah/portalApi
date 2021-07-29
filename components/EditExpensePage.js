@@ -159,5 +159,5 @@ const headCells = [
       </Dialog>
         </div>
        
-    )
+    );
 }
