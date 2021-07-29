@@ -298,7 +298,66 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
+                          <TableCell>
+                                <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">{"Customer Account Details"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-description">
+                                     <TableContainer component={Paper}>
+                              <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="right">Cell</TableCell>
+                                    <TableCell align="right">City</TableCell>
+                                    <TableCell align="right">Email</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {rows.map((row) => (
+                                    <TableRow key={row.name}>
+                                      <TableCell component="th" scope="row">
+                                        {row.name}
+                                      </TableCell>
+                                      <TableCell align="right">response.{row.Name}</TableCell>
+                                      <TableCell align="right">response.{row.Cell}</TableCell>
+                                      <TableCell align="right">response.{row.Email}</TableCell>
+                                      <TableCell align="right">response.{row.Email}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+
+                                  </DialogContentText>
+                                </DialogContent>
+                               <DialogActions>
+                                  <Button onClick={handleClose} color="primary" autoFocus>
+                                    Close
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                               
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      {row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -321,13 +380,17 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-       
+        <EditExpensePage
+               show={modalShow}
+                onHide={() => setModalShow(false)}
+                acno={modalAcno}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-   
+  
   );
   
 }
