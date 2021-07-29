@@ -22,11 +22,12 @@ const useStyles = makeStyles({
 function createData(name, cell, city, email) {
   return {name, cell, city, email};
 }
-export default function EditExpensePage () {
+export default function EditExpensePage (reload, setReload) {
         const classes = useStyles();
         const [open, setOpen] = React.useState(false);
         const handleClickOpen = () => {setOpen(true);  };
         const handleClose = () => { setOpen(false); };
+        const [apis, setApis] = React.useState(null);
         const [rows, setRows] = React.useState([]);
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
@@ -34,6 +35,42 @@ export default function EditExpensePage () {
         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
       };
+   React.useEffect(async () => {
+    if (reload) {
+      setIsLoading(true);
+      await fetchApiDetails();
+      setIsLoading(false);
+      setReload(false);
+    }
+  }, [reload]);
+  React.useEffect(() => {
+    if (apis) {
+      setOriginalRows([]);
+      let newRows = [];
+      apis.map((a) => {
+        newRows.push(
+          createData(
+            a["name"],
+            a["city"],
+            a["cell"],
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["api_no"]);
+                setModalShow(true);
+              }}
+            />
+          )
+        );
+      });
+      setRows(newRows);
+      setOriginalRows(newRows);
+      setIsLoading(false);
+    }
+  }, [apis]);
+  React.useEffect(async () => {
+    await fetchApiDetails();
+  }, []);
     return (
          <div>
 //          <Button variant="outlined" color="primary" onClick={handleClickOpen} >ACTION </Button>
