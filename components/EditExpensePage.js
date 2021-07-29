@@ -31,7 +31,7 @@ export default function EditExpensePage () {
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
       const response = await fetch(
-        `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
+        `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
      console.log(response);
       };
