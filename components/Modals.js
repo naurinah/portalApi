@@ -193,13 +193,8 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            <AddCircleOutlineIcon
-              className="cursor-pointer"
-              onClick={() => {
-                setModalAcno(a["api_no"]);
-                setModalShow(true);
-              }}
-            />
+          '<Button variant="outlined" color="primary" onClick={handleClickOpen} >View Details</Button>'
+         
           )
           ];
         });
@@ -210,13 +205,7 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-        <AddCircleOutlineIcon
-              className="cursor-pointer"
-              onClick={() => {
-                setModalAcno(a["api_no"]);
-                setModalShow(true);
-              }}
-            />
+       '<Button variant="outlined" color="primary" onClick={handleClickOpen} >View Details</Button>'
       ),
     );
   })
@@ -308,9 +297,9 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                         
                               <TableCell>
-                                <Button variant="outlined" color="primary" onClick={handleClickOpen} >View Details</Button>
                               </TableCell>
                              
                         </TableRow>
