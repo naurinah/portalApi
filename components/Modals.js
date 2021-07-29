@@ -21,8 +21,8 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-function createData(acno, total_Hits, Last_Hit) {
-  return { acno, total_Hits, Last_Hit };
+function createData(acno, total_Hits, Last_Hit,action) {
+  return { acno, total_Hits, Last_Hit,action };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -69,6 +69,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "LAST HIT",
+  },
+  {
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "ACTION",
   },
 ];
 
@@ -171,7 +177,7 @@ export default function Modals({ show, onHide, acno }) {
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
 
-  const fetchAccount = async (ac) => {
+  const fetchAccountDetails = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
@@ -227,7 +233,7 @@ export default function Modals({ show, onHide, acno }) {
         if (acSplit !== undefined) {
           acSplit.map(async (a) => {
             if (a !== "") {
-              await fetchAccount(a);
+              await fetchAccountDetails(a);
             }
           });
         }
