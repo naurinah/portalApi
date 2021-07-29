@@ -82,7 +82,7 @@ const rows = [
         </TableBody>
       </Table>
     </TableContainer>
-  );
+ 
           </DialogContentText>
         </DialogContent>
         {<DialogActions>
