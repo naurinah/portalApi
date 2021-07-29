@@ -70,6 +70,12 @@ const headCells = [
     disablePadding: false,
     label: "LAST HIT",
   },
+   {
+    id: "Customer Details",
+    numeric: false,
+    disablePadding: false,
+    label: "HIT",
+  },
 ];
 
 function EnhancedTableHead(props) {
