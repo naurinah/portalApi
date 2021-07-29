@@ -190,6 +190,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
+            a["customer"],
           )
           ];
         });
@@ -200,6 +201,7 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
+        a["customer"],
       ),
     );
   })
