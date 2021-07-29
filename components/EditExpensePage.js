@@ -28,7 +28,12 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
-
+const headCells = [
+  {id: "name", numeric: false, disablePadding: false,label: "NAME", },
+  { id: "cell",numeric: false,disablePadding: false,label: "CELL", },
+  {id: "city", numeric: false,disablePadding: false,label: "CITY", },
+  {id: "email", numeric: false,disablePadding: false,label: "EMAIL", },
+];
 
     export default function EditExpensePage () {
          const classes = useStyles();
@@ -59,15 +64,31 @@ const rows = [
            
               <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
+              <TableHead className="bg-[#f5f5fd]">
+              <TableRow>
+                {headCells.map((headCell) => (
+                  <TableCell
+                    key={headCell.id}
+                    align={headCell.numeric ? "right" : "left"}
+                    padding={headCell.disablePadding ? "none" : "default"}
+                    sortDirection={orderBy === headCell.id ? order : false}
+                  >
+                    <TableSortLabel
+                      active={orderBy === headCell.id}
+                      direction={orderBy === headCell.id ? order : "asc"}
+                      onClick={createSortHandler(headCell.id)}
+                    >
+                      {headCell.label}
+                      {orderBy === headCell.id ? (
+                        <span className={classes.visuallyHidden}>
+                          {order === "desc" ? "sorted descending" : "sorted ascending"}
+                        </span>
+                      ) : null}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
