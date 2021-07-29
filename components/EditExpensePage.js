@@ -101,18 +101,13 @@ const headCells = [
             useEffect(() => {
               console.log("rows", rows);
             }, [rows]);
-
-
-      
         const handleClickOpen = () => {
           setOpen(true);
         };
-      
         const handleClose = () => {
           setOpen(false);
         };
      
-   
     return (
         <div>
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
