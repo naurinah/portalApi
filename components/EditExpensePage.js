@@ -57,7 +57,7 @@ export default function EditExpensePage() {
   const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
-      `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`,
+      `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
     ).then((res) => res.json());
     newRows = [];
     if (newRows === []) {
@@ -99,11 +99,6 @@ export default function EditExpensePage() {
         <DialogTitle id="alert-dialog-title">Use Google's location service?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {isLoading ? (
-              <div className="flex justify-center items-center">
-                <CircularProgress />
-              </div>
-            ) : (
               <Paper className={classes.paper}>
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
@@ -132,11 +127,10 @@ export default function EditExpensePage() {
                   </Table>
                 </TableContainer>
               </Paper>
-            )}
+          
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-
           <Button onClick={handleClose} color="primary" autoFocus>
             Close
           </Button>
