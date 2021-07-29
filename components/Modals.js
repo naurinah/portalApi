@@ -299,10 +299,6 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
                           <TableCell>{row.action}</TableCell>
-                        
-                              <TableCell>
-                              </TableCell>
-                             
                         </TableRow>
                       );
                     })}
