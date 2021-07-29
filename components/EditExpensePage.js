@@ -64,7 +64,7 @@ export default function EditExpensePage() {
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">NAME</TableCell>
-                    <TableCell align="left">CELL NUMBER</TableCell>
+                    <TableCell align="left">PHONE</TableCell>
                     <TableCell align="left">EMAIL</TableCell>
                     <TableCell align="left">CITY</TableCell>
                   </TableRow>
