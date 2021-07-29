@@ -62,6 +62,7 @@ const headCells = [
                     a["Email"],
                   ),
                 ];
+              });
               } else {
                   response.map((a) => {
                     newRows.push(
@@ -74,7 +75,9 @@ const headCells = [
                     a["Email"],
                   )
                 );
-              }
+             });
+              setOriginalRows(newRows);
+              setIsLoading(false);
               setRows(newRows);
             };
             useEffect(async () => {
@@ -91,8 +94,7 @@ const headCells = [
                   });
                 }
                  setIsLoading(false);
-                 setOriginalRows(newRows);
-                 setRows(newRows);
+                
               }
             }, [acno]);
 
