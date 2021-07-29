@@ -178,6 +178,7 @@ export default function Modals({ show, onHide, acno }) {
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
   const [modalAcno, setModalAcno] = React.useState("");
+   const [open, setOpen] = React.useState(false);
 
 
   const fetchAccountDetails = async (ac) => {
