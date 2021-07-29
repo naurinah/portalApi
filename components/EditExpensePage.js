@@ -66,10 +66,10 @@ export default function EditExpensePage () {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.Name}</TableCell>
-              <TableCell align="right">{row.Cell}</TableCell>
-              <TableCell align="right">{row.Email}</TableCell>
-              <TableCell align="right">{row.Email}</TableCell>
+              <TableCell align="right">response.{row.Name}</TableCell>
+              <TableCell align="right">response.{row.Cell}</TableCell>
+              <TableCell align="right">response.{row.Email}</TableCell>
+              <TableCell align="right">response.{row.Email}</TableCell>
             </TableRow>
           ))}
         </TableBody>
