@@ -49,9 +49,11 @@ const headCells = [
                 `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
               ).then((res) => res.json());
               console.log(response.detail);
-              if (newRows === []) {
-                newRows = [
-                  createData(
+                    newRows = [];
+                    if (newRows === []) {
+                      response.map((a) => {
+                      newRows = [
+                        createData(
                    a[0]["Name"],
                    a["City"],
                     a["Cell"] === null
@@ -61,8 +63,9 @@ const headCells = [
                   ),
                 ];
               } else {
-                newRows.push(
-                  createData(
+                  response.map((a) => {
+                    newRows.push(
+                      createData(
                     a["Name"],
                    a["City"],
                     a["Cell"] === null
@@ -87,7 +90,9 @@ const headCells = [
                     }
                   });
                 }
-                setIsLoading(false);
+                 setIsLoading(false);
+                 setOriginalRows(newRows);
+                 setRows(newRows);
               }
             }, [acno]);
 
