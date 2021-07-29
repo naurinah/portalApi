@@ -177,6 +177,8 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
+  const [modalAcno, setModalAcno] = React.useState("");
+
 
   const fetchAccountDetails = async (ac) => {
     let newRows = rows;
