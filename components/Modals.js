@@ -191,7 +191,10 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            a["action"],
+           <AddCircleOutlineIcon
+              className="cursor-pointer"
+             onClick={() => {handleClickOpen}}
+            />
           )
           ];
         });
@@ -204,7 +207,7 @@ export default function Modals({ show, onHide, acno }) {
         a["Last_Hit"],
         <AddCircleOutlineIcon
               className="cursor-pointer"
-             onClick={() => { handleClickOpen}}
+             onClick={() => {handleClickOpen}}
             />
       ),
     );
