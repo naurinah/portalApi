@@ -194,10 +194,8 @@ export default function Modals({ show, onHide, acno }) {
 //            <Button 
         variant="outlined"
         color="primary" 
-        onClick={
-        handleClickOpen
-        } 
-      value="ACTION"/>
+        onClick={handleClickOpen } 
+     />
             
           )
           ];
@@ -212,10 +210,8 @@ export default function Modals({ show, onHide, acno }) {
        <Button 
         variant="outlined"
         color="primary" 
-        onClick={
-        handleClickOpen
-        } 
-      value="ACTION"/>
+        onClick={handleClickOpen } 
+      />
     );
   })
   }
