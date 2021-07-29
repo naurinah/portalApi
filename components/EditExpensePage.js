@@ -16,7 +16,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: 850,
   },
 });
 function createData(name, cell, city, email) {
@@ -33,7 +33,7 @@ export default function EditExpensePage () {
       const response = await fetch(
         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
-     console.log(response);
+     console.log(aaa);
       };
    
     return (
