@@ -18,8 +18,8 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, cell, city, email) {
+  return {name, cell, city, email};
 }
 const rows = [
   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
