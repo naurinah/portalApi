@@ -78,14 +78,11 @@ export default function EditExpensePage () {
               
           </DialogContentText>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
+       <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+            Close
           </Button>
-        </DialogActions> */}
+        </DialogActions>
       </Dialog>
         </div>
        
