@@ -37,7 +37,8 @@ export default function EditExpensePage () {
       };
    
     return (
-       <div>
+         <div>
+          <AddCircleOutlineIcon  variant="outlined" color="primary" onClick={handleClickOpen}/>
       <Dialog
         open={open}
         onClose={handleClose}
