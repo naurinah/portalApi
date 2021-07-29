@@ -52,23 +52,23 @@ const headCells = [
               if (newRows === []) {
                 newRows = [
                   createData(
-                    response.detail[0]["Name"],
-                    response.detail[0]["City"],
-                    response.detail[0]["Cell"] === null
+                   a[0]["Name"],
+                   a["City"],
+                    a["Cell"] === null
                       ? "---"
-                      : response.detail[0]["Cell"]
-                    response.detail[0]["Email"],
+                      : a[0]["Cell"]
+                    a[0]["Email"],
                   ),
                 ];
               } else {
                 newRows.push(
                   createData(
-                    response.detail[0]["Name"],
-                    response.detail[0]["City"],
-                    response.detail[0]["Cell"] === null
+                    a["Name"],
+                   a["City"],
+                    a["Cell"] === null
                       ? "---"
-                      : response.detail[0]["Cell"]
-                    response.detail[0]["Email"],
+                      : a["Cell"]
+                    a["Email"],
                   )
                 );
               }
