@@ -24,43 +24,14 @@ function createData(name, cell, city, email) {
 }
 
 
-const fetchAccount = async (ac) => {
+const fetchAccountDetails = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
     ).then((res) => res.json());
-    newRows = [];
-    if (newRows === []) {
-      response.map((a) => {
-        newRows = [createData(a["Name"], a["Cell"], a["Email"],a["Email"])];
-      });
-    } else {
-      response.map((a) => {
-        newRows.push(createData(a["Name"], a["Cell"], a["Email"],a["Email"]));
-      });
-    }
+   console.log(response);
 
-    setRows(newRows);
-    setOriginalRows(newRows);
-    setIsLoading(false);
-  };
-
-  useEffect(async () => {
-    if (acno !== undefined) {
-      setIsLoading(true);
-      setRows([]);
-      let acSplit = [""];
-      acSplit = acno.split(",");
-      if (acSplit !== undefined) {
-        acSplit.map(async (a) => {
-          if (a !== "") {
-            await fetchAccount(a);
-          }
-        });
-      }
-      setIsLoading(false);
-    }
-  }, [acno]);
+ 
 
 
 
