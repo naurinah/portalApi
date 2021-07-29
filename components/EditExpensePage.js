@@ -53,7 +53,7 @@ const rows = [
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Customer Account Details"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
            
