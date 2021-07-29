@@ -27,13 +27,14 @@ export default function EditExpensePage () {
         const [open, setOpen] = React.useState(false);
         const handleClickOpen = () => {setOpen(true);  };
         const handleClose = () => { setOpen(false); };
+  
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
       const response = await fetch(
         `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
       ).then((res) => res.json());
      console.log(response);
-
+      };
    
     return (
         <div>
