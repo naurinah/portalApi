@@ -33,12 +33,12 @@ export default function EditExpensePage () {
       const response = await fetch(
         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
-     console.log(response);
       };
-   
     return (
          <div>
-          <AddCircleOutlineIcon  variant="outlined" color="primary" onClick={handleClickOpen}/>
+          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+             <AddCircleOutlineIcon/>
+            </Button>
       <Dialog
         open={open}
         onClose={handleClose}
