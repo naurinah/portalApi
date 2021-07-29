@@ -20,12 +20,6 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 
 function createData(acno, total_Hits, Last_Hit,action) {
   return { acno, total_Hits, Last_Hit,action };
@@ -186,14 +180,7 @@ export default function Modals({ show, onHide, acno }) {
   const [modalAcno, setModalAcno] = React.useState("");
    const [open, setOpen] = React.useState(false);
   
-   const fetchAccountView = async (ac) => {
-       let newRows = rows;
-      const response = await fetch(
-        `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
-      ).then((res) => res.json());
-      };
-
-
+  
   const fetchAccountDetails = async (ac) => {
     let newRows = rows;
     const response = await fetch(
@@ -311,66 +298,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>
-                                <Dialog
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                              >
-                                <DialogTitle id="alert-dialog-title">{"Customer Account Details"}</DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText id="alert-dialog-description">
-                                     <TableContainer component={Paper}>
-                              <Table className={classes.table} aria-label="simple table">
-                                <TableHead>
-                                  <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell align="right">Cell</TableCell>
-                                    <TableCell align="right">City</TableCell>
-                                    <TableCell align="right">Email</TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                  {rows.map((row) => (
-                                    <TableRow key={row.name}>
-                                      <TableCell component="th" scope="row">
-                                        {row.name}
-                                      </TableCell>
-                                      <TableCell align="right">response.{row.Name}</TableCell>
-                                      <TableCell align="right">response.{row.Cell}</TableCell>
-                                      <TableCell align="right">response.{row.Email}</TableCell>
-                                      <TableCell align="right">response.{row.Email}</TableCell>
-                                    </TableRow>
-                                  ))}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-
-                                  </DialogContentText>
-                                </DialogContent>
-                               <DialogActions>
-                                  <Button onClick={handleClose} color="primary" autoFocus>
-                                    Close
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                               
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      {row.action}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -393,11 +321,7 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-        <EditExpensePage
-               show={modalShow}
-                onHide={() => setModalShow(false)}
-                acno={modalAcno}
-        />
+       
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
