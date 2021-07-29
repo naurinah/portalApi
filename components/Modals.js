@@ -79,6 +79,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
+  const [modalAcno, setModalAcno] = React.useState("");
   const { classes, order, orderBy, rowCount, onRequestSort } = props;
    const handleClickOpen = () => {setOpen(true);  };
   const createSortHandler = (property) => (event) => {
@@ -191,11 +192,13 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-//            <Button 
-        variant="outlined"
-        color="primary" 
-        onClick={handleClickOpen } 
-     />
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["api_no"]);
+                setModalShow(true);
+              }}
+            />
             
           )
           ];
@@ -207,10 +210,14 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-       <Button 
-        variant="outlined"
-        color="primary" 
-        onClick={handleClickOpen } 
+        <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["api_no"]);
+                setModalShow(true);
+              }}
+            />
+       
       />
     );
   })
@@ -302,14 +309,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <Router>
-                            <TableCell>
-                           <Link  to={"/user/"+row.action}>{row.action}</Link>
-                            </TableCell>
-                            <Switch>
-                              <Route path='/user/:id' component={EditExpensePage}/>
-                             </Switch>
-                            </Router>
+                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -337,7 +337,13 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-   
+       <EditExpensePage
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        acno={modalAcno}
+
+         />
+       
   );
   
 }
