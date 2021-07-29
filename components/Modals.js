@@ -19,15 +19,10 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-function createData(acno, total_Hits, Last_Hit,action) {
-  return { acno, total_Hits, Last_Hit,action };
+function createData(acno, total_Hits, Last_Hit) {
+  return { acno, total_Hits, Last_Hit };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -75,18 +70,10 @@ const headCells = [
     disablePadding: false,
     label: "LAST HIT",
   },
-   {
-    id: "action",
-    numeric: false,
-    disablePadding: false,
-    label: "ACTION",
-  },
 ];
 
 function EnhancedTableHead(props) {
-  const [modalAcno, setModalAcno] = React.useState("");
   const { classes, order, orderBy, rowCount, onRequestSort } = props;
-   const handleClickOpen = () => {setOpen(true);  };
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -183,8 +170,6 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
- 
-   
 
   const fetchAccount = async (ac) => {
     let newRows = rows;
@@ -199,13 +184,6 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-           <AddCircleOutlineIcon
-              className="cursor-pointer"
-              onClick={() => {
-                setModalAcno(a["acno"]);
-                setModalShow(true);
-              }}
-            />
           )
           ];
         });
@@ -216,16 +194,11 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-        <AddCircleOutlineIcon
-              className="cursor-pointer"
-              onClick={() => {
-                setModalAcno(a["acno"]);
-                setModalShow(true);
-              }}
-            />
-          )
-        );
-      });
+      ),
+    );
+  })
+  }
+
       setRows(newRows);
       setOriginalRows(newRows);
       setIsLoading(false);
@@ -309,10 +282,16 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <TableCell>{row.acno}</TableCell>
+                         <Router><TableCell className="">
+                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -340,7 +319,7 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-      
-       
+   
   );
+  
 }
