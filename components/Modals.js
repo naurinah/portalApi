@@ -19,6 +19,11 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 function createData(acno, total_Hits, Last_Hit,action) {
@@ -178,6 +183,16 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
+     const [open, setOpen] = React.useState(false);
+      
+        const handleClickOpen = () => {
+          setOpen(true);
+        };
+      
+        const handleClose = () => {
+          setOpen(false);
+        };
+   
 
   const fetchAccount = async (ac) => {
     let newRows = rows;
@@ -337,13 +352,38 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-       <EditExpensePage
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        acno={modalAcno}
-
-         />
+      
        
   );
+return (
+        <div>
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions> */}
+      </Dialog>
+        </div>
+       
+    )
   
 }
