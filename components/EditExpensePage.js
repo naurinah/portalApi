@@ -22,19 +22,47 @@ const useStyles = makeStyles({
 function createData(name, cell, city, email) {
   return {name, cell, city, email};
 }
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-const headCells = [
-  {id: "name", numeric: false, disablePadding: false,label: "NAME", },
-  { id: "cell",numeric: false,disablePadding: false,label: "CELL", },
-  {id: "city", numeric: false,disablePadding: false,label: "CITY", },
-  {id: "email", numeric: false,disablePadding: false,label: "EMAIL", },
-];
+
+
+const fetchAccount = async (ac) => {
+    let newRows = rows;
+    const response = await fetch(
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
+    ).then((res) => res.json());
+    newRows = [];
+    if (newRows === []) {
+      response.map((a) => {
+        newRows = [createData(a["Name"], a["Cell"], a["Email"],a["Email"])];
+      });
+    } else {
+      response.map((a) => {
+        newRows.push(createData(a["Name"], a["Cell"], a["Email"],a["Email"]));
+      });
+    }
+
+    setRows(newRows);
+    setOriginalRows(newRows);
+    setIsLoading(false);
+  };
+
+  useEffect(async () => {
+    if (acno !== undefined) {
+      setIsLoading(true);
+      setRows([]);
+      let acSplit = [""];
+      acSplit = acno.split(",");
+      if (acSplit !== undefined) {
+        acSplit.map(async (a) => {
+          if (a !== "") {
+            await fetchAccount(a);
+          }
+        });
+      }
+      setIsLoading(false);
+    }
+  }, [acno]);
+
+
 
     export default function EditExpensePage () {
         const [orderBy, setOrderBy] = React.useState("calories");
@@ -64,44 +92,26 @@ const headCells = [
         <DialogTitle id="alert-dialog-title">{"Customer Account Details"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-           
-              <TableContainer component={Paper}>
+             <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
-              <TableHead className="bg-[#f5f5fd]">
-              <TableRow>
-                {headCells.map((headCell) => (
-                  <TableCell
-                    key={headCell.id}
-                    align={headCell.numeric ? "right" : "left"}
-                    padding={headCell.disablePadding ? "none" : "default"}
-                    sortDirection={orderBy === headCell.id ? order : false}
-                  >
-                    <TableSortLabel
-                      active={orderBy === headCell.id}
-                      direction={orderBy === headCell.id ? order : "asc"}
-                      onClick={createSortHandler(headCell.id)}
-                    >
-                      {headCell.label}
-                      {orderBy === headCell.id ? (
-                        <span className={classes.visuallyHidden}>
-                          {order === "desc" ? "sorted descending" : "sorted ascending"}
-                        </span>
-                      ) : null}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">Cell</TableCell>
+            <TableCell align="right">City</TableCell>
+            <TableCell align="right">Email</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.Name}</TableCell>
+              <TableCell align="right">{row.Cell}</TableCell>
+              <TableCell align="right">{row.Email}</TableCell>
+              <TableCell align="right">{row.Email}</TableCell>
             </TableRow>
           ))}
         </TableBody>
