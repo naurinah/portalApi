@@ -71,7 +71,7 @@ const headCells = [
     label: "LAST HIT",
   },
    {
-    id: "Customer Details",
+    id: "customer",
     numeric: false,
     disablePadding: false,
     label: "HIT",
@@ -288,16 +288,18 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                         <Router><TableCell className="">
-                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                          <TableCell>{row.acno}</TableCell>
+                          <TableCell>{row.total_Hits}</TableCell>
+                          <TableCell>{row.Last_Hit}</TableCell>
+                          <TableCell>{row.customer}</TableCell>
+                          <Router><TableCell>
+                           <Link  to={"/user/"+row.customer}>{row.customer}</Link>
                             </TableCell>
                             <Switch>
-                              {/* <Route path="user/:acno" component={user}/> */}
+                              {/* <Route path="user/:customer" component={user}/> */}
                               <Route path='/user/:id' component={EditExpensePage}/>
                               </Switch>
                             </Router>
-                          <TableCell>{row.total_Hits}</TableCell>
-                          <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
                       );
                     })}
