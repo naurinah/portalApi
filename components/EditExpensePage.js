@@ -22,10 +22,8 @@ const useStyles = makeStyles({
 function createData(name, cell, city, email) {
   return {name, cell, city, email};
 }
-export default function EditExpensePage (reload, setReload) {
+export default function EditExpensePage () {
         const classes = useStyles();
-        const [open, setOpen] = React.useState(false);
-        const handleClickOpen = () => {setOpen(true);  };
         const handleClose = () => { setOpen(false); };
         const [apis, setApis] = React.useState(null);
         const [rows, setRows] = React.useState([]);
@@ -38,7 +36,7 @@ export default function EditExpensePage (reload, setReload) {
  
     return (
          <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen} >ACTION </Button>
+      
       <Dialog
         open={open}
         onClose={handleClose}
