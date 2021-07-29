@@ -23,11 +23,11 @@ function createData(name, cell, city, email) {
   return {name, cell, city, email};
 }
 export default function EditExpensePage () {
-         const classes = useStyles();
+        const classes = useStyles();
         const [open, setOpen] = React.useState(false);
         const handleClickOpen = () => {setOpen(true);  };
         const handleClose = () => { setOpen(false); };
-  
+        const [rows, setRows] = React.useState([]);
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
       const response = await fetch(
