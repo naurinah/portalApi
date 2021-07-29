@@ -1,7 +1,11 @@
 import { Button } from "@material-ui/core";
+// import user from "./user";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import user from "./user";
+import EditExpensePage from "./EditExpensePage";
+import {BrowserRouter, BrowserRouter as Router,Link,Route,Switch} from 'react-router-dom';
+// import Link from '@material-ui/core/Link';
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -15,6 +19,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 function createData(acno, total_Hits, Last_Hit) {
   return { acno, total_Hits, Last_Hit };
@@ -104,7 +109,6 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -175,35 +179,47 @@ export default function Modals({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows = [createData(a["acno"], a["total_Hits"], a["Last_Hit"])];
-      });
-    } else {
-      response.map((a) => {
-        newRows.push(createData(a["acno"], a["total_Hits"], a["Last_Hit"]));
-      });
-    }
-
-    setRows(newRows);
-    setOriginalRows(newRows);
-    setIsLoading(false);
-  };
-
-  useEffect(async () => {
-    if (acno !== undefined) {
-      setIsLoading(true);
-      setRows([]);
-      let acSplit = [""];
-      acSplit = acno.split(",");
-      if (acSplit !== undefined) {
-        acSplit.map(async (a) => {
-          if (a !== "") {
-            await fetchAccount(a);
-          }
+        newRows=[
+          createData(
+            a["acno"],
+            a["total_Hits"],
+            a["Last_Hit"],
+          )
+          ];
         });
-      }
+  }else {
+    response.map((a) => {
+    newRows.push(
+      createData(
+        a["acno"],
+        a["total_Hits"],
+        a["Last_Hit"],
+      ),
+    );
+  })
+  }
+
+      setRows(newRows);
+      setOriginalRows(newRows);
       setIsLoading(false);
-    }
-  }, [acno]);
+    };
+
+    useEffect(async () => {
+      if (acno !== undefined) {
+        setIsLoading(true);
+        setRows([]);
+        let acSplit = [""];
+        acSplit = acno.split(",");
+        if (acSplit !== undefined) {
+          acSplit.map(async (a) => {
+            if (a !== "") {
+              await fetchAccount(a);
+            }
+          });
+        }
+        setIsLoading(false);
+      }
+    }, [acno]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -222,6 +238,7 @@ export default function Modals({ show, onHide, acno }) {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    
 
   return (
     <Modal
@@ -265,15 +282,14 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <Router>
-                            <TableCell 
-                              className="cursor-pointer">
-                              <Link  to={"/user/"+row.acno}>{row.acno}</Link> 
-                                <Switch>
-                                <Route path='/user/:id' component={EditExpensePage}/>
-                                </Switch>
+                         <Router><TableCell className="">
+                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
                             </TableCell>
-                           </Router>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
@@ -288,7 +304,7 @@ export default function Modals({ show, onHide, acno }) {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100, 150]}
+              rowsPerPageOptions={[25, 50, 100,150]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
@@ -303,5 +319,7 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
+   
   );
+  
 }
