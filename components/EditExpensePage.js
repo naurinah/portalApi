@@ -54,7 +54,7 @@ export default function EditExpensePage() {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const fetchAccount = async (ac) => {
+  const fetchAccountDetail = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
@@ -86,7 +86,7 @@ export default function EditExpensePage() {
       if (acSplit !== undefined) {
         acSplit.map(async (a) => {
           if (a !== '') {
-            await fetchAccount(a);
+            await fetchAccountDetail(a);
           }
         });
       }
@@ -106,11 +106,10 @@ export default function EditExpensePage() {
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell align="right">{row.cell}</TableCell>
+                        <TableCell align="right">{row.city}</TableCell>
+                        <TableCell align="right">{row.email}</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -119,10 +118,10 @@ export default function EditExpensePage() {
                           <TableCell component="th" scope="row">
                             {row.name}
                           </TableCell>
-                          <TableCell align="right">{row.calories}</TableCell>
-                          <TableCell align="right">{row.fat}</TableCell>
-                          <TableCell align="right">{row.carbs}</TableCell>
-                          <TableCell align="right">{row.protein}</TableCell>
+                          <TableCell align="right">{row.name}</TableCell>
+                          <TableCell align="right">{row.cell}</TableCell>
+                          <TableCell align="right">{row.city}</TableCell>
+                          <TableCell align="right">{row.email}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
