@@ -63,7 +63,7 @@ export default function EditExpensePage() {
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>NAME</TableCell>
+                    <TableCell align="right">NAME</TableCell>
                     <TableCell align="right">CELL NUMBER</TableCell>
                     <TableCell align="right">EMAIL</TableCell>
                     <TableCell align="right">CITY</TableCell>
