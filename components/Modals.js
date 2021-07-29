@@ -20,6 +20,12 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 function createData(acno, total_Hits, Last_Hit,action) {
   return { acno, total_Hits, Last_Hit,action };
@@ -179,6 +185,13 @@ export default function Modals({ show, onHide, acno }) {
   const ac = "";
   const [modalAcno, setModalAcno] = React.useState("");
    const [open, setOpen] = React.useState(false);
+  
+   const fetchAccountView = async (ac) => {
+       let newRows = rows;
+      const response = await fetch(
+        `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
+      ).then((res) => res.json());
+      };
 
 
   const fetchAccountDetails = async (ac) => {
