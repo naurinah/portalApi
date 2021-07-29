@@ -1,7 +1,11 @@
 import { Button } from "@material-ui/core";
+// import user from "./user";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
-import {BrowserRouter as Router,Link,Route} from 'react-router-dom';
+import user from "./user";
+import EditExpensePage from "./EditExpensePage";
+import {BrowserRouter, BrowserRouter as Router,Link,Route,Switch} from 'react-router-dom';
+// import Link from '@material-ui/core/Link';
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -105,7 +109,6 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -279,9 +282,14 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <TableCell className="cursor-pointer">
-                            <a href="#" >
-                            {row.acno}</a></TableCell>
+                         <Router><TableCell className="">
+                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
@@ -311,5 +319,7 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
+   
   );
+  
 }
