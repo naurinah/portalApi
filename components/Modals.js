@@ -80,6 +80,7 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, rowCount, onRequestSort } = props;
+   const handleClickOpen = () => {setOpen(true);  };
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
