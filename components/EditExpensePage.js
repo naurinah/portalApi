@@ -58,7 +58,7 @@ const headCells = [
                    a["City"],
                     a["Cell"] === null
                       ? "---"
-                      : a["Cell"]
+                      : a["Cell"],
                     a["Email"],
                   ),
                 ];
@@ -70,7 +70,7 @@ const headCells = [
                    a["City"],
                     a["Cell"] === null
                       ? "---"
-                      : a["Cell"]
+                      : a["Cell"],
                     a["Email"],
                   )
                 );
