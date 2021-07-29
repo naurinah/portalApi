@@ -37,7 +37,7 @@ export default function EditExpensePage () {
       };
    
     return (
-       
+       <div>
       <Dialog
         open={open}
         onClose={handleClose}
