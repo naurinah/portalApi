@@ -228,12 +228,10 @@ export default function Modals({ show, onHide, acno }) {
         <AddCircleOutlineIcon
               className="cursor-pointer"
               onClick={() => {
-                setModalAcno(a["api_no"]);
+                setModalAcno(a["acno"]);
                 setModalShow(true);
               }}
             />
-       
-      />
     );
   })
   }
