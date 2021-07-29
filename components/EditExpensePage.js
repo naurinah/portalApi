@@ -20,20 +20,81 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, city, cell,email) {
+  return { name, city, cell,email};
 }
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+const headCells = [
+  { id: "name", numeric: false, disablePadding: false, label: "Name" },
+  { id: "city", numeric: false, disablePadding: false, label: "Address" },
+  { id: "cell", numeric: false, disablePadding: false,label: "Cell"},
+   {id: "email", numeric: false,disablePadding: false, label: "Email"},
 ];
+
 
     export default function EditExpensePage () {
        const classes = useStyles();
-        const [open, setOpen] = React.useState(false);
+       const [open, setOpen] = React.useState(false);
+      const [order, setOrder] = React.useState("asc");
+      const [orderBy, setOrderBy] = React.useState("calories");
+      const [page, setPage] = React.useState(0);
+      const [rowsPerPage, setRowsPerPage] = React.useState(10);
+      const [apis, setApis] = React.useState(null);
+      const [rows, setRows] = React.useState([]);
+      const [isLoading, setIsLoading] = React.useState(true);
+      
+      const fetchAccount = async (ac) => {
+              let newRows = rows;
+              const response = await fetch(
+                `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
+              ).then((res) => res.json());
+              console.log(response.detail);
+              if (newRows === []) {
+                newRows = [
+                  createData(
+                    response.detail[0]["Name"],
+                    response.detail[0]["City"],
+                    response.detail[0]["Cell"] === null
+                      ? "---"
+                      : response.detail[0]["Cell"]
+                    response.detail[0]["Email"],
+                  ),
+                ];
+              } else {
+                newRows.push(
+                  createData(
+                    response.detail[0]["Name"],
+                    response.detail[0]["City"],
+                    response.detail[0]["Cell"] === null
+                      ? "---"
+                      : response.detail[0]["Cell"]
+                    response.detail[0]["Email"],
+                  )
+                );
+              }
+              setRows(newRows);
+            };
+            useEffect(async () => {
+              if (acno !== undefined) {
+                setIsLoading(true);
+                setRows([]);
+                let acSplit = [""];
+                acSplit = acno.split(",");
+                if (acSplit !== undefined) {
+                  acSplit.map(async (a) => {
+                    if (a !== "") {
+                      await fetchAccount(a);
+                    }
+                  });
+                }
+                setIsLoading(false);
+              }
+            }, [acno]);
+
+            useEffect(() => {
+              console.log("rows", rows);
+            }, [rows]);
+
+
       
         const handleClickOpen = () => {
           setOpen(true);
@@ -42,6 +103,7 @@ const rows = [
         const handleClose = () => {
           setOpen(false);
         };
+     
    
     return (
         <div>
@@ -69,14 +131,14 @@ const rows = [
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.name}>
+             <TableRow hover tabIndex={-1} key={row.account}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.city}</TableCell>
+              <TableCell align="right">{row.cell}</TableCell>
+              <TableCell align="right">{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>
