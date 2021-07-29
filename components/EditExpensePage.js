@@ -54,12 +54,12 @@ const headCells = [
                       response.map((a) => {
                       newRows = [
                         createData(
-                   a[0]["Name"],
+                   a["Name"],
                    a["City"],
                     a["Cell"] === null
                       ? "---"
-                      : a[0]["Cell"]
-                    a[0]["Email"],
+                      : a["Cell"]
+                    a["Email"],
                   ),
                 ];
               } else {
