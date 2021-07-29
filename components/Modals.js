@@ -306,7 +306,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
                           <Router>
-                              <TableCell>
+                              <TableCell onClick={handleClickOpen}>
                                  <Link  to={"/user/"+row.action}>{row.action}</Link>
                               </TableCell>
                               <Route path='/user/:id' component={EditExpensePage}/>
