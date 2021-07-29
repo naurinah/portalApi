@@ -336,11 +336,7 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-        <EditExpensePage
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        acno={modalAcno}
-      />
+       
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
