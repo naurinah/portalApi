@@ -207,10 +207,10 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            <AddCircleOutlineIcon
+           <AddCircleOutlineIcon
               className="cursor-pointer"
               onClick={() => {
-                setModalAcno(a["api_no"]);
+                setModalAcno(a["acno"]);
                 setModalShow(true);
               }}
             />
@@ -232,10 +232,9 @@ export default function Modals({ show, onHide, acno }) {
                 setModalShow(true);
               }}
             />
-    );
-  })
-  }
-
+          )
+        );
+      });
       setRows(newRows);
       setOriginalRows(newRows);
       setIsLoading(false);
