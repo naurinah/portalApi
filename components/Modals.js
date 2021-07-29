@@ -79,7 +79,7 @@ const headCells = [
     id: "action",
     numeric: false,
     disablePadding: false,
-    label: "Action",
+    label: "ACTION",
   },
 ];
 
@@ -183,15 +183,9 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
-     const [open, setOpen] = React.useState(false);
-      
-        const handleClickOpen = () => {
-          setOpen(true);
-        };
-      
-        const handleClose = () => {
-          setOpen(false);
-        };
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => { setOpen(true); };
+  const handleClose = () => { setOpen(false); };
    
 
   const fetchAccount = async (ac) => {
@@ -214,7 +208,6 @@ export default function Modals({ show, onHide, acno }) {
                 setModalShow(true);
               }}
             />
-            
           )
           ];
         });
@@ -321,7 +314,37 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
+                          <TableCell>{row.action}
+                            return (
+                                    <div>
+                                        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                                    Open alert dialog
+                                  </Button>
+                                  <Dialog
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                  >
+                                    <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                                    <DialogContent>
+                                      <DialogContentText id="alert-dialog-description">
+                                        Let Google help apps determine location. This means sending anonymous location data to
+                                        Google, even when no apps are running.
+                                      </DialogContentText>
+                                    </DialogContent>
+                                    {/* <DialogActions>
+                                      <Button onClick={handleClose} color="primary">
+                                        Disagree
+                                      </Button>
+                                      <Button onClick={handleClose} color="primary" autoFocus>
+                                        Agree
+                                      </Button>
+                                    </DialogActions> */}
+                                  </Dialog>
+                                    </div>
+                                )
+                        </TableCell>
                         </TableRow>
                       );
                     })}
@@ -352,35 +375,4 @@ export default function Modals({ show, onHide, acno }) {
       
        
   );
-return (
-        <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions> */}
-      </Dialog>
-        </div>
-       
-    )
-  
 }
