@@ -35,45 +35,10 @@ export default function EditExpensePage (reload, setReload) {
         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
       };
-   React.useEffect(async () => {
-    if (reload) {
-      setIsLoading(true);
-      await fetchApiDetails();
-      setIsLoading(false);
-      setReload(false);
-    }
-  }, [reload]);
-  React.useEffect(() => {
-    if (apis) {
-      setOriginalRows([]);
-      let newRows = [];
-      apis.map((a) => {
-        newRows.push(
-          createData(
-            a["name"],
-            a["city"],
-            a["cell"],
-            <AddCircleOutlineIcon
-              className="cursor-pointer"
-              onClick={() => {
-                setModalAcno(a["api_no"]);
-                setModalShow(true);
-              }}
-            />
-          )
-        );
-      });
-      setRows(newRows);
-      setOriginalRows(newRows);
-      setIsLoading(false);
-    }
-  }, [apis]);
-  React.useEffect(async () => {
-    await fetchApiDetails();
-  }, []);
+ 
     return (
          <div>
-//          <Button variant="outlined" color="primary" onClick={handleClickOpen} >ACTION </Button>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen} >ACTION </Button>
       <Dialog
         open={open}
         onClose={handleClose}
