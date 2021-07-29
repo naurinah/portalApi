@@ -36,6 +36,8 @@ const headCells = [
 ];
 
     export default function EditExpensePage () {
+        const [orderBy, setOrderBy] = React.useState("calories");
+
          const classes = useStyles();
         const [open, setOpen] = React.useState(false);
       
