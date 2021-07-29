@@ -203,7 +203,7 @@ export default function Modals({ show, onHide, acno }) {
         a["Last_Hit"],
         <AddCircleOutlineIcon
               className="cursor-pointer"
-              onClick={handleClickOpen}
+             onClick={() => { handleClickOpen}}
             />
       ),
     );
