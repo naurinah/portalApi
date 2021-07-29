@@ -336,7 +336,7 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-        <Modals
+        <EditExpensePage
         show={modalShow}
         onHide={() => setModalShow(false)}
         acno={modalAcno}
