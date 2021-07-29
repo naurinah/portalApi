@@ -33,7 +33,7 @@ export default function EditExpensePage () {
       const response = await fetch(
         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
       ).then((res) => res.json());
-     console.log(aaa);
+     console.log(response);
       };
    
     return (
