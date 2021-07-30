@@ -21,8 +21,8 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-function createData(acno, total_Hits, Last_Hit,action) {
-  return { acno, total_Hits, Last_Hit,action };
+function createData(acno, total_Hits, Last_Hit) {
+  return { acno, total_Hits, Last_Hit };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -69,12 +69,6 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "LAST HIT",
-  },
-  {
-    id: "action",
-    numeric: false,
-    disablePadding: false,
-    label: "ACTION",
   },
 ];
 
@@ -167,8 +161,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Modals({ show, onHide, acno }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => { setOpen(false); };
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
@@ -178,10 +170,8 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
-  const [modalAcno, setModalAcno] = React.useState("");
- 
-  
-  const fetchAccountDetails = async (ac) => {
+
+  const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
@@ -194,8 +184,6 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
-           
           )
           ];
         });
@@ -206,8 +194,6 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
-      
       ),
     );
   })
@@ -227,7 +213,7 @@ export default function Modals({ show, onHide, acno }) {
         if (acSplit !== undefined) {
           acSplit.map(async (a) => {
             if (a !== "") {
-              await fetchAccountDetails(a);
+              await fetchAccount(a);
             }
           });
         }
@@ -296,10 +282,16 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <TableCell>{row.acno}</TableCell>
+                         <Router><TableCell className="">
+                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell > {row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -322,13 +314,12 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-       
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-  
+   
   );
   
 }
