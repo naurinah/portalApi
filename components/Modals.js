@@ -167,8 +167,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Modals({ show, onHide, acno }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {setOpen(true);  };
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
@@ -195,7 +193,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
+          <Button variant="outlined" color="primary">View Details</Button>
            
           )
           ];
@@ -207,7 +205,7 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-       <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
+       <Button variant="outlined" color="primary">View Details</Button>
       
       ),
     );
