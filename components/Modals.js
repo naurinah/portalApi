@@ -300,9 +300,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell 
-                          onClick()=>{alert('Hello');}
-                            >{row.action}</TableCell>
+                          <TableCell> {row.action}</TableCell>
                         </TableRow>
                       );
                     })}
