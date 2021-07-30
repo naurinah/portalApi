@@ -37,7 +37,7 @@ export default function EditExpensePage () {
  
     return (
          <div>
-        
+         <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
       <Dialog
         open={open}
         onClose={handleClose}
