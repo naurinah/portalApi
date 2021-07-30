@@ -297,7 +297,14 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
+                           <Router><TableCell>
+                           <Link  to={"/user/"+row.action}>{row.action}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                         </TableRow>
                       );
                     })}
