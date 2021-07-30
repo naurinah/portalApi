@@ -323,11 +323,7 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-        <Modals
-        show={modalShow}
-        onHide={() => handleClickOpen(false)}
-        acno={modalAcno}
-      />
+       
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
