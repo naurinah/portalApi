@@ -301,7 +301,7 @@ export default function Modals({ show, onHide, acno }) {
                            <Link  to={"/user/"+row.action}>{row.action}</Link>
                             </TableCell>
                             <Switch>
-                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path="user/:acno" component={user}/>
                               <Route path='/user/:id' component={EditExpensePage}/>
                               </Switch>
                             </Router>
