@@ -26,6 +26,8 @@ export default function EditExpensePage () {
         const classes = useStyles();
         const handleClose = () => { setOpen(false); };
         const [apis, setApis] = React.useState(null);
+        const [open, setOpen] = React.useState(false);
+        const handleClickOpen = () => {setOpen(true);  };
         const [rows, setRows] = React.useState([]);
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
@@ -36,7 +38,7 @@ export default function EditExpensePage () {
  
     return (
          <div>
-      
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
       <Dialog
         open={open}
         onClose={handleClose}
