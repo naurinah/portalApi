@@ -179,7 +179,7 @@ export default function Modals({ show, onHide, acno }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [originalRows, setOriginalRows] = React.useState([]);
   const [apis, setApis] = React.useState(null);
-  const [rows, setRows] = React.useState([]);
+ 
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
   const [open, setOpen] = React.useState(false);
