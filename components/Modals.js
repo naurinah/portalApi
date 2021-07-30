@@ -199,11 +199,24 @@ export default function Modals({ show, onHide, acno }) {
 }
   function EditExpensePage () {
         const classes = useStyles();
-        const handleClose = () => { setOpen(false); };
+     
         const [apis, setApis] = React.useState(null);
-        const [open, setOpen] = React.useState(false);
-        const handleClickOpen = () => {setOpen(true);  };
+      
+       
         const [rows, setRows] = React.useState([]);
+    
+     const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+    
+    
+    
         const fetchAccountDetails = async (ac) => {
        let newRows = rows;
       const response = await fetch(
@@ -284,7 +297,9 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-          <Button variant="outlined" color="primary" onClick={handleClickOpen} >View Details</Button>
+          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
            
           )
           ];
@@ -296,7 +311,10 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-       <Button variant="outlined" color="primary" onClick={handleClickOpen} >View Details</Button>
+      
+     <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Open alert dialog
+      </Button>
       
       ),
     );
@@ -389,7 +407,7 @@ export default function Modals({ show, onHide, acno }) {
                           <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell> {row.action}</TableCell>
+                          <TableCell > {row.action}</TableCell>
                         </TableRow>
                       );
                     })}
