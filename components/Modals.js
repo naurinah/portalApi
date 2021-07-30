@@ -193,7 +193,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
           )
           ];
         });
@@ -296,7 +296,8 @@ export default function Modals({ show, onHide, acno }) {
                          <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <Button variant="outlined" color="primary" onClick={handleClickOpen} component={EditExpensePage}>  VIEW ACTION </Button>
+                          <TableCell component={handleClickOpen}>{row.action}</TableCell>
+                         
                           
                         </TableRow>
                       );
