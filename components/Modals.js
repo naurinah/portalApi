@@ -293,17 +293,18 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                         <Router><TableCell className="">
-                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                         <TableCell>{row.acno}</TableCell>
+                          <TableCell>{row.total_Hits}</TableCell>
+                          <TableCell>{row.Last_Hit}</TableCell>
+                          
+                            <Router><TableCell className="">
+                           <Link  to={"/user/"+row.action}>{row.action}</Link>
                             </TableCell>
                             <Switch>
                               {/* <Route path="user/:acno" component={user}/> */}
                               <Route path='/user/:id' component={EditExpensePage}/>
                               </Switch>
                             </Router>
-                          <TableCell>{row.total_Hits}</TableCell>
-                          <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
