@@ -20,15 +20,9 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
-
-function createData(acno, total_Hits, Last_Hit) {
-  return { acno, total_Hits, Last_Hit };
+function createData(acno, total_Hits, Last_Hit,action) {
+  return { acno, total_Hits, Last_Hit,action };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -76,7 +70,7 @@ const headCells = [
     disablePadding: false,
     label: "LAST HIT",
   },
-   {
+  {
     id: "action",
     numeric: false,
     disablePadding: false,
@@ -182,11 +176,10 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
-  const [open, setOpen] = React.useState(false);
-        const handleClickOpen = () => {setOpen(true);  };
-        const [rows, setRows] = React.useState([]);
-
-  const fetchAccount = async (ac) => {
+  const [modalAcno, setModalAcno] = React.useState("");
+ 
+  
+  const fetchAccountDetails = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
@@ -199,7 +192,8 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
+          <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
+           
           )
           ];
         });
@@ -210,7 +204,8 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
+      
       ),
     );
   })
@@ -230,7 +225,7 @@ export default function Modals({ show, onHide, acno }) {
         if (acSplit !== undefined) {
           acSplit.map(async (a) => {
             if (a !== "") {
-              await fetchAccount(a);
+              await fetchAccountDetails(a);
             }
           });
         }
@@ -255,18 +250,7 @@ export default function Modals({ show, onHide, acno }) {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
-    const classes = useStyles();
-    const handleClose = () => { setOpen(false); };
-    const [apis, setApis] = React.useState(null);
     
-
-    const fetchAccountDetails = async (ac) => {
-        let newRows = rows;
-       const response = await fetch(
-         `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
-       ).then((res) => res.json());
-       };  
 
   return (
     <Modal
@@ -310,54 +294,10 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                         <TableCell>{row.acno}</TableCell>
+                          <TableCell>{row.acno}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell component={handleClickOpen}>
-                                <Dialog
-                                    open={open}
-                                    onClose={handleClose}
-                                    aria-labelledby="alert-dialog-title"
-                                    aria-describedby="alert-dialog-description"
-                                >
-                                    <DialogTitle id="alert-dialog-title">{"Customer Account Details"}</DialogTitle>
-                                    <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        <TableContainer component={Paper}>
-                                <Table className={classes.table} aria-label="simple table">
-                                    <TableHead>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell align="right">Cell</TableCell>
-                                        <TableCell align="right">City</TableCell>
-                                        <TableCell align="right">Email</TableCell>
-                                    </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                    {rows.map((row) => (
-                                        <TableRow key={row.name}>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">response.{row.Name}</TableCell>
-                                        <TableCell align="right">response.{row.Cell}</TableCell>
-                                        <TableCell align="right">response.{row.Email}</TableCell>
-                                        <TableCell align="right">response.{row.Email}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                    </TableBody>
-                                </Table>
-                                </TableContainer>
-                                        
-                                    </DialogContentText>
-                                    </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={handleClose} color="primary" autoFocus>
-                                        Close
-                                    </Button>
-                                    </DialogActions>
-                                </Dialog>
-                        {row.action}</TableCell>
+                          <TableCell > {row.action}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -380,12 +320,13 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
+       
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-   
+  
   );
   
 }
