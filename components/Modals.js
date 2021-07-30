@@ -167,6 +167,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Modals({ show, onHide, acno }) {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => { setOpen(false); };
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
