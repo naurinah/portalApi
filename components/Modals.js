@@ -176,6 +176,9 @@ export default function Modals({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
+  const [open, setOpen] = React.useState(false);
+        const handleClickOpen = () => {setOpen(true);  };
+        const [rows, setRows] = React.useState([]);
 
   const fetchAccount = async (ac) => {
     let newRows = rows;
@@ -190,7 +193,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-           
+          <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
           )
           ];
         });
@@ -201,7 +204,7 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-      
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>View Details</Button>
       ),
     );
   })
