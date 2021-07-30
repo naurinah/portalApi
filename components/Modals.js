@@ -70,6 +70,12 @@ const headCells = [
     disablePadding: false,
     label: "LAST HIT",
   },
+   {
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "ACTION",
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -184,6 +190,7 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}> VIEW ACTION </Button>
           )
           ];
         });
@@ -194,6 +201,7 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>  VIEW ACTION </Button>
       ),
     );
   })
@@ -292,6 +300,7 @@ export default function Modals({ show, onHide, acno }) {
                             </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
