@@ -4,7 +4,13 @@ import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
 import user from "./user";
 import EditExpensePage from "./EditExpensePage";
-import {BrowserRouter, BrowserRouter as Router,Link,Route,Switch} from 'react-router-dom';
+import {
+  BrowserRouter,
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+} from "react-router-dom";
 // import Link from '@material-ui/core/Link';
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -19,8 +25,6 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Details } from "@material-ui/icons";
-
 
 function createData(acno, total_Hits, Last_Hit) {
   return { acno, total_Hits, Last_Hit };
@@ -72,12 +76,11 @@ const headCells = [
     label: "LAST HIT",
   },
   {
-    id:"View Details",
-    numeric:false,
-    disablePadding:false,
-    label: "View Details",
-  }
-  
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "ACTION",
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -168,31 +171,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Modals({ show, onHide, acno }) {
-
-
-  return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-           
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-
-
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -212,61 +190,35 @@ export default function Modals({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows=[
-          createData(
-            a["acno"],
-            a["total_Hits"],
-            a["Last_Hit"],
-            <IconButton 
-            aria-label="expand row" 
-            size="small" 
-            onClick={() => setOpen(!open)}
-            >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-          )
-          ];
+        newRows = [createData(a["acno"], a["total_Hits"], a["Last_Hit"])];
+      });
+    } else {
+      response.map((a) => {
+        newRows.push(createData(a["acno"], a["total_Hits"], a["Last_Hit"]));
+      });
+    }
+
+    setRows(newRows);
+    setOriginalRows(newRows);
+    setIsLoading(false);
+  };
+
+  useEffect(async () => {
+    if (acno !== undefined) {
+      setIsLoading(true);
+      setRows([]);
+      let acSplit = [""];
+      acSplit = acno.split(",");
+      if (acSplit !== undefined) {
+        acSplit.map(async (a) => {
+          if (a !== "") {
+            await fetchAccount(a);
+          }
         });
-  }else {
-    response.map((a) => {
-    newRows.push(
-      createData(
-        a["acno"],
-        a["total_Hits"],
-        a["Last_Hit"],
-        <IconButton 
-        aria-label="expand row" 
-        size="small" 
-        onClick={() => setOpen(!open)}
-        >
-        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </IconButton>
-      ),
-    );
-  })
-  }
-
-      setRows(newRows);
-      setOriginalRows(newRows);
-      setIsLoading(false);
-    };
-
-    useEffect(async () => {
-      if (acno !== undefined) {
-        setIsLoading(true);
-        setRows([]);
-        let acSplit = [""];
-        acSplit = acno.split(",");
-        if (acSplit !== undefined) {
-          acSplit.map(async (a) => {
-            if (a !== "") {
-              await fetchAccount(a);
-            }
-          });
-        }
-        setIsLoading(false);
       }
-    }, [acno]);
+      setIsLoading(false);
+    }
+  }, [acno]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -285,7 +237,6 @@ export default function Modals({ show, onHide, acno }) {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    
 
   return (
     <Modal
@@ -329,43 +280,20 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
+                          <Router>
+                            <TableCell className="">
+                              <Link to={"/user/" + row.acno}>{row.acno}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route
+                                path="/user/:id"
+                                component={EditExpensePage}
+                              />
+                            </Switch>
+                          </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
-                          <TableCell>
-                          <TableRow>
-                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                              <Collapse in={open} timeout="auto" unmountOnExit>
-                                <Box margin={1}>
-                                  <Typography variant="h6" gutterBottom component="div">
-                                    DETAILS
-                                  </Typography>
-                                  <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>City</TableCell>
-                                        <TableCell align="right">Cell</TableCell>
-                                        <TableCell align="right">Email</TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.name}>
-                                          <TableCell component="th" scope="row">
-                                            {historyRow.date}
-                                          </TableCell>
-                                          <TableCell>{historyRow.cell}</TableCell>
-                                          <TableCell align="right">{historyRow.email}</TableCell>
-                                          <TableCell align="right">{historyRow.email}</TableCell>
-                                         
-                                        </TableRow>
-                                      ))}
-                                    </TableBody>
-                                  </Table>
-                                </Box>
-                              </Collapse>
-                            </TableCell>
-                          </TableRow> {row.view}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -378,7 +306,7 @@ export default function Modals({ show, onHide, acno }) {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100,150]}
+              rowsPerPageOptions={[25, 50, 100, 150]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
@@ -393,7 +321,5 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-   
   );
-  
 }
