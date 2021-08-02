@@ -172,10 +172,13 @@ export default function EditExpensePage({
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchEditExpensePage = async (ac) => {
-    const response = await fetch(
-       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
-    ).then((res) => res.json());
-    setApis(response);
+    console.log( `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`);
+//     const response = await fetch(
+      
+//        `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+//     ).then((res) => res.json());
+//     setApis(response);
+    
   };
 
   const [originalRows, setOriginalRows] = React.useState([]);
