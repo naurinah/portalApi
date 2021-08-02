@@ -128,6 +128,25 @@ const useRowStyles = makeStyles({
       
       export default function CollapsibleTable() {
         return (
+            <Modal
+            show={show}
+            onHide={onHide}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Customer Related to this API
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {isLoading ? (
+                <div className="flex justify-center items-center">
+                  <CircularProgress />
+                </div>
+              ) : (
+                <Paper className={classes.paper}>
           <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
               <TableHead>
@@ -147,8 +166,25 @@ const useRowStyles = makeStyles({
               </TableBody>
             </Table>
           </TableContainer>
-              
-         
+          <TablePagination
+              rowsPerPageOptions={[25, 50, 100,150]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Paper>
+        )}
+       
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+     
+           
         );
       }
     
