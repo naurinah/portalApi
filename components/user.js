@@ -3,7 +3,7 @@ function User(props) {
   console.warn(props);
   return (
     <div>
-      <h1>Hello{props.match.params.acno}</h1>
+      <h1>Hello{props.match.params.id}</h1>
     </div>
   );
 }
