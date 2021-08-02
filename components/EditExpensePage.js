@@ -211,7 +211,7 @@ export default function EditExpensePage({
       let newRows = [];
       apis.map((a) => {
         newRows.push(
-          createData(a["api_name"], a["api_cell"], a["city"], a["email"])
+          createData(a["api_name"], a["api_cell"], a["api_city"], a["api_email"])
         );
       });
       setRows(newRows);
