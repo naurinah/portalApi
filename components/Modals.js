@@ -320,7 +320,7 @@ onClick={() => {
                             <Link  to={"/user/"+row.action}>{row.action}</Link>
                             </TableCell>
                             <Switch>
-                              //<Route path="user/:acno" component={Ex}/>
+                              //<Route path="user/:acno" component={user}/>
                                <Route path='/user/:id' component={EditExpensePage}/>
                               </Switch>
                              </Router>
