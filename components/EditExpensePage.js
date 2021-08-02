@@ -174,11 +174,11 @@ export default function EditExpensePage({
   const fetchEditExpensePage = async (ac) => {
     console.log(ac);
     console.log( `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`);
-//     const response = await fetch(
+const response = await fetch(
       
-//        `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
-//     ).then((res) => res.json());
-//     setApis(response);
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+   ).then((res) => res.json());
+   setApis(response);
     
   };
 
