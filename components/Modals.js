@@ -315,7 +315,7 @@ export default function Modals({ show, onHide, acno }) {
                             <TableCell>{row.Last_Hit}</TableCell>
                             <Router>
                               <TableCell className="">
-                                <Link to={"/user/" + row.action}>
+                                <Link to={"/user/" + row.acno}>
                                   {row.action}
                                 </Link>
                               </TableCell>
@@ -352,7 +352,7 @@ export default function Modals({ show, onHide, acno }) {
         <EditExpensePage
           show={modalShow}
           onHide={() => setModalShow(false)}
-          acno={modalAcno}
+          acno={acno}
         />
       </Modal.Body>
       <Modal.Footer>
