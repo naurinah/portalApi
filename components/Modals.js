@@ -195,13 +195,7 @@ export default function Modals({ show, onHide, acno }) {
             a["Last_Hit"],
         <Button 
           variant="outlined" 
-          color="primary"
-           show={modalShow}
-           onHide={() => setModalShow(false)}
-           acno={modalAcno}
-          }}
-  
-> 
+          color="primary"> 
  VIEW ACTION </Button>
            
           )
@@ -216,13 +210,7 @@ export default function Modals({ show, onHide, acno }) {
         a["Last_Hit"],
      <Button 
         variant="outlined" 
-        color="primary"
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        acno={modalAcno}
-        }}
-  
-> 
+        color="primary"> 
  VIEW ACTION </Button>
       
       ),
