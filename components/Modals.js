@@ -194,17 +194,24 @@ export default function Modals({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows = [createData(a["acno"], a["total_Hits"], a["Last_Hit"],
-        <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </IconButton>)];
+        newRows = 
+        [createData(
+          a["acno"],
+           a["total_Hits"], 
+           a["Last_Hit"],
+           <Button>View Details</Button>
+         
+      )];
       });
     } else {
       response.map((a) => {
-        newRows.push(createData(a["acno"], a["total_Hits"], a["Last_Hit"],
-         <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      </IconButton>));
+        newRows.push(createData(
+           a["acno"],
+           a["total_Hits"],
+           a["Last_Hit"],
+           <Button>View Details</Button>
+      )
+      );
       });
     }
 
@@ -290,20 +297,9 @@ export default function Modals({ show, onHide, acno }) {
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.ac}>
-                          <Router>
-                            <TableCell className="">
-                              <Link to={"/user/" + row.acno}>{row.acno}</Link>
-                            </TableCell>
-                            <Switch>
-                              {/* <Route path="user/:acno" component={user}/> */}
-                              <Route
-                                path="/user/:id"
-                                component={EditExpensePage}
-                              />
-                            </Switch>
-                          </Router>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
+                          <TableCell>{row.action}</TableCell>
                         </TableRow>
                       );
                     })}
