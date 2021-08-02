@@ -287,7 +287,7 @@ export default function EditExpensePage({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Customer Related to this API
+           
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
