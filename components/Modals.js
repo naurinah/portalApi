@@ -192,14 +192,16 @@ export default function Modals({ show, onHide, acno }) {
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-          <Button 
-            variant="outlined" 
-            color="primary"
-            onClick={() => {
-               setModalAcno(a["api_no"]);
-               setModalShow(true);
-            > 
-             VIEW ACTION </Button>
+        <Button 
+variant="outlined" 
+color="primary"
+onClick={() => {
+  setModalAcno(a["api_no"]);
+  setModalShow(true);
+}}
+  
+> 
+ VIEW ACTION </Button>
            
           )
           ];
@@ -211,14 +213,16 @@ export default function Modals({ show, onHide, acno }) {
         a["acno"],
         a["total_Hits"],
         a["Last_Hit"],
-      <Button 
-            variant="outlined" 
-            color="primary"
-             onClick={() => {
-                setModalAcno(a["api_no"]);
-                 setModalShow(true);
-        > 
-             VIEW ACTION </Button>
+     <Button 
+        variant="outlined" 
+        color="primary"
+        onClick={() => {
+          setModalAcno(a["api_no"]);
+          setModalShow(true);
+        }}
+  
+> 
+ VIEW ACTION </Button>
       
       ),
     );
