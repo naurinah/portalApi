@@ -196,9 +196,9 @@ export default function Modals({ show, onHide, acno }) {
         <Button 
           variant="outlined" 
           color="primary"
-          onClick={() => {
-            setModalAcno(a["acno"]);
-            setModalShow(true);
+           show={modalShow}
+           onHide={() => setModalShow(false)}
+           acno={modalAcno}
           }}
   
 > 
@@ -217,9 +217,9 @@ export default function Modals({ show, onHide, acno }) {
      <Button 
         variant="outlined" 
         color="primary"
-        onClick={() => {
-          setModalAcno(a["acno"]);
-          setModalShow(true);
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        acno={modalAcno}
         }}
   
 > 
