@@ -19,8 +19,8 @@ import Modals from "./Modals";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SearchBar from "material-ui-search-bar";
 
-function createData(name, city, cell, email) {
-  return { name, city, cell, email };
+function createData(Name, Address, Cell, Email) {
+  return { Name, Address, Cell, Email };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -50,10 +50,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "name", numeric: false, disablePadding: false, label: "API NAME" },
-  { id: "city", numeric: false, disablePadding: false, label: "CITY" },
-  { id: "cell", numeric: true, disablePadding: false, label: "CELL" },
-  { id: "email", numeric: false, disablePadding: false, label: "EMAIL" },
+  { id: "Name", numeric: false, disablePadding: false, label: "Name" },
+  { id: "Address", numeric: false, disablePadding: false, label: "Address" },
+  { id: "Cell", numeric: true, disablePadding: false, label: "Cell" },
+  { id: "Email", numeric: false, disablePadding: false, label: "Email" },
 ];
 
 function EnhancedTableHead(props) {
@@ -171,9 +171,9 @@ export default function EditExpensePage({
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const fetchEditExpensePage = async () => {
+  const fetchEditExpensePage = async (ac) => {
     const response = await fetch(
-      "https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_detail.php"
+       `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
     ).then((res) => res.json());
     setApis(response);
   };
@@ -211,7 +211,7 @@ export default function EditExpensePage({
       let newRows = [];
       apis.map((a) => {
         newRows.push(
-          createData(a["api_name"], a["api_cell"], a["api_city"], a["api_email"])
+          createData(a["Name"], a["Address"], a["Cell"], a["Email"])
         );
       });
       setRows(newRows);
@@ -329,10 +329,10 @@ export default function EditExpensePage({
 
                         return (
                           <TableRow hover tabIndex={-1} key={row.no}>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.city}</TableCell>
-                            <TableCell>{row.cell}</TableCell>
-                            <TableCell>{row.email}</TableCell>
+                            <TableCell>{row.Name}</TableCell>
+                            <TableCell>{row.Address}</TableCell>
+                            <TableCell>{row.Cell}</TableCell>
+                            <TableCell>{row.Email}</TableCell>
                           </TableRow>
                         );
                       })}
