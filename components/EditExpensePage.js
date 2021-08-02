@@ -173,7 +173,7 @@ export default function EditExpensePage({
 
   const fetchEditExpensePage = async (ac) => {
     const response = await fetch(
-       `http://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
+       `https://portal.blue-ex.com/api1/customerportal/viewprofile.py?acno=${ac}`
     ).then((res) => res.json());
     setApis(response);
   };
