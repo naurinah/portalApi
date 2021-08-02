@@ -197,7 +197,8 @@ export default function Modals({ show, onHide, acno }) {
             color="primary"
 //             onClick={() => {
 //                 setModalAcno(a["api_no"]);
-//                 setModalShow(true);> 
+//                 setModalShow(true);
+            > 
              VIEW ACTION </Button>
            
           )
@@ -215,7 +216,8 @@ export default function Modals({ show, onHide, acno }) {
             color="primary"
 //             onClick={() => {
 //                 setModalAcno(a["api_no"]);
-//                 setModalShow(true);> 
+//                 setModalShow(true);
+        > 
              VIEW ACTION </Button>
       
       ),
