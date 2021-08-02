@@ -25,6 +25,10 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
 
 function createData(acno, total_Hits, Last_Hit) {
   return { acno, total_Hits, Last_Hit };
@@ -190,11 +194,17 @@ export default function Modals({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows = [createData(a["acno"], a["total_Hits"], a["Last_Hit"])];
+        newRows = [createData(a["acno"], a["total_Hits"], a["Last_Hit"],
+        <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+      </IconButton>)];
       });
     } else {
       response.map((a) => {
-        newRows.push(createData(a["acno"], a["total_Hits"], a["Last_Hit"]));
+        newRows.push(createData(a["acno"], a["total_Hits"], a["Last_Hit"],
+         <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+      </IconButton>));
       });
     }
 
