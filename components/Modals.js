@@ -4,13 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
 import user from "./user";
 import EditExpensePage from "./EditExpensePage";
-import {
-  BrowserRouter,
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-} from "react-router-dom";
+import {BrowserRouter, BrowserRouter as Router,Link,Route,Switch} from 'react-router-dom';
 // import Link from '@material-ui/core/Link';
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -25,16 +19,10 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
-// import { makeStyles } from '@material-ui/core/styles';
-// import { withStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-function createData(acno, total_Hits, Last_Hit, action) {
-  return { acno, total_Hits, Last_Hit, action };
+
+function createData(acno, total_Hits, Last_Hit) {
+  return { acno, total_Hits, Last_Hit };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -82,12 +70,6 @@ const headCells = [
     disablePadding: false,
     label: "LAST HIT",
   },
-  // {
-  //   id: "action",
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: "ACTION",
-  // },
 ];
 
 function EnhancedTableHead(props) {
@@ -137,7 +119,6 @@ const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
-  
   },
   highlight:
     theme.palette.type === "light"
@@ -152,9 +133,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   title: {
     flex: "1 1 100%",
   },
-  
 }));
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -178,47 +157,21 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0,
-  },
- 
 }));
-
 
 export default function Modals({ show, onHide, acno }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [originalRows, setOriginalRows] = React.useState([]);
   const [apis, setApis] = React.useState(null);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  // const [open, setOpen] = React.useState(false);
-  const [originalRows, setOriginalRows] = React.useState([]);
-  const [modalShow, setModalShow] = React.useState(false);
   const ac = "";
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const [open, setOpen] = React.useState(false);
 
-  const [modalAcno, setModalAcno] = React.useState("");
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
- 
-
-  const fetchAccountDetails = async (ac) => {
+  const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
@@ -226,62 +179,47 @@ export default function Modals({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-        newRows = [
+        newRows=[
           createData(
             a["acno"],
             a["total_Hits"],
             a["Last_Hit"],
-            <Button
-              className="cursor-pointer"
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                alert("DialogBox");
-              }}
-            >
-              VIEW ACTION
-            </Button>
-          ),
-        ];
-      });
-    } else {
-      response.map((a) => {
-        newRows.push(
-          createData(
-            a["acno"],
-            a["total_Hits"],
-            a["Last_Hit"],
-            <Button
-              className="cursor-pointer"
-              variant="outlined"
-              color="primary"
-              onClick={() => { alert(document.getElementById("myDail").innerHTML);}} >VIEW ACTION</Button>
           )
-        );
-      });
-    }
-
-    setRows(newRows);
-    setOriginalRows(newRows);
-    setIsLoading(false);
-  };
-
-  useEffect(async () => {
-    if (acno !== undefined) {
-      setIsLoading(true);
-      setRows([]);
-      let acSplit = [""];
-      acSplit = acno.split(",");
-      if (acSplit !== undefined) {
-        acSplit.map(async (a) => {
-          if (a !== "") {
-            await fetchAccountDetails(a);
-          }
+          ];
         });
-      }
+  }else {
+    response.map((a) => {
+    newRows.push(
+      createData(
+        a["acno"],
+        a["total_Hits"],
+        a["Last_Hit"],
+      ),
+    );
+  })
+  }
+
+      setRows(newRows);
+      setOriginalRows(newRows);
       setIsLoading(false);
-    }
-  }, [acno]);
+    };
+
+    useEffect(async () => {
+      if (acno !== undefined) {
+        setIsLoading(true);
+        setRows([]);
+        let acSplit = [""];
+        acSplit = acno.split(",");
+        if (acSplit !== undefined) {
+          acSplit.map(async (a) => {
+            if (a !== "") {
+              await fetchAccount(a);
+            }
+          });
+        }
+        setIsLoading(false);
+      }
+    }, [acno]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -300,6 +238,7 @@ export default function Modals({ show, onHide, acno }) {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    
 
   return (
     <Modal
@@ -340,69 +279,32 @@ export default function Modals({ show, onHide, acno }) {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
-                      
 
                       return (
-                        
-                        <TableRow hover tabIndex={-1} key={row.ac} >
-                          <TableCell>{row.acno}</TableCell>
+                        <TableRow hover tabIndex={-1} key={row.ac}>
+                         <Router><TableCell className="">
+                           <Link  to={"/user/"+row.acno}>{row.acno}</Link>
+                            </TableCell>
+                            <Switch>
+                              {/* <Route path="user/:acno" component={user}/> */}
+                              <Route path='/user/:id' component={EditExpensePage}/>
+                              </Switch>
+                            </Router>
                           <TableCell>{row.total_Hits}</TableCell>
-                          <TableCell >{row.Last_Hit}</TableCell>
-                          <TableCell>{row.action}</TableCell>
-                          <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                          >
-                            <Typography className={classes.heading}>View Action</Typography>
-                            {/* <Typography className={classes.secondaryHeading}>I am an accordion</Typography> */}
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <Typography>
-                            <TableContainer component={Paper}>
-                                  <Table className={classes.table} aria-label="simple table">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell align="right">Cell</TableCell>
-                                        <TableCell align="right">City</TableCell>
-                                        <TableCell align="right">Email</TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {rows.map((row) => (
-                                        <TableRow key={row.name}>
-                                          <TableCell component="th" scope="row">
-                                            {row.name}
-                                          </TableCell>
-                                          <TableCell align="right">response.{row.Name}</TableCell>
-                                          <TableCell align="right">response.{row.Cell}</TableCell>
-                                          <TableCell align="right">response.{row.Email}</TableCell>
-                                          <TableCell align="right">response.{row.Email}</TableCell>
-                                        </TableRow>
-                                      ))}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-                            </Typography>
-                          </AccordionDetails>
-                        </Accordion>
-                           
+                          <TableCell>{row.Last_Hit}</TableCell>
                         </TableRow>
                       );
                     })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6}/>
+                      <TableCell colSpan={6} />
                     </TableRow>
-                    
                   )}
                 </TableBody>
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100, 150]}
+              rowsPerPageOptions={[25, 50, 100,150]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
@@ -412,11 +314,12 @@ export default function Modals({ show, onHide, acno }) {
             />
           </Paper>
         )}
-        <EditExpensePage open={open} onClose={handleClose} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
+   
   );
+  
 }
