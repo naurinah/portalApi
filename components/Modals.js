@@ -315,7 +315,7 @@ export default function Modals({ show, onHide, acno }) {
                             <TableCell>{row.Last_Hit}</TableCell>
                             <Router>
                               <TableCell className="">
-                                <Link to={"/user/" + row.acno}>
+                                <Link to={"/user/" + row.action}>
                                   {row.action}
                                 </Link>
                               </TableCell>
