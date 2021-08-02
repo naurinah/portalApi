@@ -199,7 +199,12 @@ export default function Modals({ show, onHide, acno }) {
           a["acno"],
            a["total_Hits"], 
            a["Last_Hit"],
-           <Button>View Details</Button>
+           <IconButton
+           className="cursor-pointer"
+           size="small"
+           aria-label="expand row"
+           onClick={() => setOpen(!open)}
+         > {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
          
       )];
       });
@@ -209,7 +214,13 @@ export default function Modals({ show, onHide, acno }) {
            a["acno"],
            a["total_Hits"],
            a["Last_Hit"],
-           <Button>View Details</Button>
+           <IconButton
+           className="cursor-pointer"
+           size="small"
+           aria-label="expand row"
+           onClick={() => setOpen(!open)}
+         > {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}</IconButton>
+        
       )
       );
       });
