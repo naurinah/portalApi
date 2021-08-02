@@ -153,13 +153,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let no = 0;
-export default function EditExpensePage({
-  reload,
-  setReload,
-  show,
-  onHide,
-  acno,
-}) {
+export default function EditExpensePage({ reload, setReload,show,onHide, acno,}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -172,96 +166,50 @@ export default function EditExpensePage({
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchEditExpensePage = async (ac) => {
-    let {id} = useParams();
-    console.log(id);
-    console.log( `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`);
-// const response = await fetch(
-      
-//       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
-//    ).then((res) => res.json());
-//    setApis(response);
-    
-  };
-
-  const [originalRows, setOriginalRows] = React.useState([]);
-  const [searched, setSearched] = React.useState("");
-
-  const requestSearch = (searchedVal) => {
-    const filteredRowsNo = originalRows.filter((row) => {
-      return row.no.toLowerCase().includes(searchedVal.toLowerCase());
+    let newRows = rows;
+    const response = await fetch(
+     `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+ ).then((res) => res.json());
+ if (newRows === []) {
+    response.map((a) => {
+      newRows = [
+        createData(a["Name"], a["Address"], a["Cell"], a["Email"]),
+      ];
     });
-    const filteredRowsName = originalRows.filter((row) => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+  } else {
+    response.map((a) => {
+      newRows.push(
+        createData(a["Name"], a["Address"], a["Cell"], a["Email"]),
+      );
     });
-    //console.log(filteredRowsNo);
-    setRows([...new Set([...filteredRowsNo, ...filteredRowsName])]);
-  };
-  const cancelSearch = () => {
-    setSearched("");
-    requestSearch(searched);
-  };
+  }
 
-  React.useEffect(async () => {
-    if (reload) {
+  setRows(newRows);
+  setOriginalRows(newRows);
+  setIsLoading(false);
+};
+
+useEffect(async () => {
+    if (acno !== undefined) {
       setIsLoading(true);
-      await fetchEditExpensePage();
-      setIsLoading(false);
-      setReload(false);
-    }
-  }, [reload]);
-
-  React.useEffect(() => {
-    if (apis) {
-      setOriginalRows([]);
-      let newRows = [];
-      apis.map((a) => {
-        newRows.push(
-          createData(a["Name"], a["Address"], a["Cell"], a["Email"])
-        );
-      });
-      setRows(newRows);
-      setOriginalRows(newRows);
+      setRows([]);
+      let acSplit = [""];
+      acSplit = acno.split(",");
+      if (acSplit !== undefined) {
+        acSplit.map(async (a) => {
+          if (a !== "") {
+            await fetchAccount(a);
+          }
+        });
+      }
       setIsLoading(false);
     }
-  }, [apis]);
-
-  React.useEffect(async () => {
-    await fetchEditExpensePage();
-  }, []);
-
+  }, [acno]);
+    
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -272,11 +220,6 @@ export default function EditExpensePage({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
