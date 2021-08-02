@@ -148,11 +148,7 @@ const useRowStyles = makeStyles({
             </Table>
           </TableContainer>
               
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={onHide}>Close</Button>
-            </Modal.Footer>
-            </Modal>
+         
         );
       }
     
