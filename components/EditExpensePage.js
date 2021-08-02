@@ -331,7 +331,7 @@ export default function EditExpensePage({
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
-                          <TableRow hover tabIndex={-1} key={row.no}>
+                          <TableRow hover tabIndex={-1} key={row.acno}>
                             <TableCell>{row.Name}</TableCell>
                             <TableCell>{row.Address}</TableCell>
                             <TableCell>{row.Cell}</TableCell>
