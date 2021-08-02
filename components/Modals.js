@@ -196,6 +196,9 @@ export default function Modals({ show, onHide, acno }) {
         <Button 
           variant="outlined" 
           color="primary"> 
+            onClick{() = {
+            alert('My Dialogbox');
+          }}
  VIEW ACTION </Button>
            
           )
@@ -210,7 +213,10 @@ export default function Modals({ show, onHide, acno }) {
         a["Last_Hit"],
      <Button 
         variant="outlined" 
-        color="primary"> 
+        color="primary"
+         onClick{() = {
+         alert('My Dialogbox');
+          }}> 
  VIEW ACTION </Button>
       
       ),
