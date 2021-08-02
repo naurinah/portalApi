@@ -321,7 +321,7 @@ onClick={() => {
                             </TableCell>
                             <Switch>
                               //<Route path="user/:acno" component={Ex}/>
-                               <Route path='/user/:acno' component={EditExpensePage}/>
+                               <Route path='/user/:id' component={EditExpensePage}/>
                               </Switch>
                              </Router>
                               
