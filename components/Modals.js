@@ -186,6 +186,7 @@ export default function Modals({ show, onHide, acno }) {
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
     ).then((res) => res.json());
+
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
@@ -200,9 +201,7 @@ export default function Modals({ show, onHide, acno }) {
                 setModalAcno(a["acno"]);
                 setModalShow(true);
               }}
-            >
-              Veiw Button
-            </AddCircleOutlineIcon>
+            />
           ),
         ];
       });
@@ -219,9 +218,7 @@ export default function Modals({ show, onHide, acno }) {
                 setModalAcno(a["acno"]);
                 setModalShow(true);
               }}
-            >
-              Veiw Button
-            </AddCircleOutlineIcon>
+            />
           )
         );
       });
@@ -315,7 +312,7 @@ export default function Modals({ show, onHide, acno }) {
                             <TableCell>{row.Last_Hit}</TableCell>
                             <Router>
                               <TableCell className="">
-                                <Link to={"/user/" + row.acno}>
+                                <Link to={"/user/" + row.id}>
                                   {row.action}
                                 </Link>
                               </TableCell>
@@ -352,7 +349,7 @@ export default function Modals({ show, onHide, acno }) {
         <EditExpensePage
           show={modalShow}
           onHide={() => setModalShow(false)}
-          acno={acno}
+          acno={modalAcno}
         />
       </Modal.Body>
       <Modal.Footer>
