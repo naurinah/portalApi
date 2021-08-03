@@ -44,9 +44,11 @@ const StatusBar = () => {
   const MINUTE_MS = 30000;
 
   useEffect(async () => {
+    fetchNewCustomers();
     fetchTotalOrders();
     fetchDangerApi();
     const interval = setInterval(async () => {
+      await fetchNewCustomers();
       await fetchTotalOrders();
       await fetchDangerApi();
     }, MINUTE_MS);
