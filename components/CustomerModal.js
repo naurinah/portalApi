@@ -1,8 +1,10 @@
 import { Button } from "@material-ui/core";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
+import CustomerMoreDetails from "./CustomerMoreDetails";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -15,8 +17,8 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-function createData(api_no,api_name,api_url,total_Hits,Last_Hit) {
-  return { api_no,api_name,api_url,total_Hits,Last_Hit };
+function createData(api_no, api_name, api_url, total_Hits, Last_Hit, action) {
+  return { api_no, api_name, api_url, total_Hits, Last_Hit, action };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -46,7 +48,6 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
- 
   {
     id: "api_no",
     numeric: false,
@@ -54,7 +55,12 @@ const headCells = [
     label: "CUSTOMER NO",
   },
   { id: "api_name", numeric: false, disablePadding: false, label: "NAME" },
-  { id: "api_url", numeric: false, disablePadding: false, label: "CUSTOMER URL" },
+  {
+    id: "api_url",
+    numeric: false,
+    disablePadding: false,
+    label: "CUSTOMER URL",
+  },
   {
     id: "total_Hits",
     numeric: false,
@@ -66,8 +72,13 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "LAST HIT",
-  }
-
+  },
+  {
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "ACTION",
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -169,6 +180,9 @@ export default function CustomerModal({ show, onHide, acno }) {
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const ac = "";
+  const [modalShow, setModalShow] = React.useState(false);
+  const [modalAcno, setModalAcno] = React.useState("");
+  
   const fetchAccount = async (ac) => {
     let newRows = rows;
     const response = await fetch(
@@ -177,31 +191,42 @@ export default function CustomerModal({ show, onHide, acno }) {
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
-      newRows = [
-        createData(
-          a["api_no"],
-          a["api_name"],
-          a["api_url"],
-          a["total_Hits"],
-          a["Last_Hit"]
-          
-        ),
-      ];
-    });
-    } else {
-      response.map((a) => {
-      newRows.push(
-        createData(
-
+        newRows = [
+          createData(
             a["api_no"],
             a["api_name"],
             a["api_url"],
             a["total_Hits"],
-            a["Last_Hit"]
-          
-        ),
-      );
-    })
+            a["Last_Hit"],
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["acno"]);
+                setModalShow(true);
+              }}
+            />
+          ),
+        ];
+      });
+    } else {
+      response.map((a) => {
+        newRows.push(
+          createData(
+            a["api_no"],
+            a["api_name"],
+            a["api_url"],
+            a["total_Hits"],
+            a["Last_Hit"],
+            <AddCircleOutlineIcon
+              className="cursor-pointer"
+              onClick={() => {
+                setModalAcno(a["acno"]);
+                setModalShow(true);
+              }}
+            />
+          )
+        );
+      });
     }
 
     setRows(newRows);
@@ -260,7 +285,7 @@ export default function CustomerModal({ show, onHide, acno }) {
       <Modal.Body>
         {isLoading ? (
           <div className="flex justify-center items-center">
-            <CircularProgress/>
+            <CircularProgress />
           </div>
         ) : (
           <Paper className={classes.paper}>
@@ -291,8 +316,18 @@ export default function CustomerModal({ show, onHide, acno }) {
                           <TableCell>{row.api_url}</TableCell>
                           <TableCell>{row.total_Hits}</TableCell>
                           <TableCell>{row.Last_Hit}</TableCell>
+                          <Router>
+                            <TableCell className="">
+                              <Link to={"/user/" + row.id}>{row.action}</Link>
+                            </TableCell>
+                            <Switch>
+                              <Route
+                                path="/user/:id"
+                                component={CustomerMoreDetails}
+                              />
+                            </Switch>
+                          </Router>
                         </TableRow>
-                        
                       );
                     })}
                   {emptyRows > 0 && (
@@ -304,7 +339,7 @@ export default function CustomerModal({ show, onHide, acno }) {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100,150]}
+              rowsPerPageOptions={[25, 50, 100, 150]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
@@ -314,6 +349,11 @@ export default function CustomerModal({ show, onHide, acno }) {
             />
           </Paper>
         )}
+        <CustomerMoreDetails
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          acno={modalAcno}
+        />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
