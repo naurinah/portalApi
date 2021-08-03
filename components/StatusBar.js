@@ -23,7 +23,7 @@ const StatusBar = () => {
    const fetchTotalOrders = async () => {
    const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json','Authorization', 'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ'; }
+        headers: { 'Content-Type': 'application/json','Authorization':'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ'; }
       
     };
     const response = await fetch('http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
