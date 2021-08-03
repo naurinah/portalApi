@@ -171,7 +171,7 @@ export default function CustomerMoreDetails({
     let newRows = rows;
 
     const response = await fetch(
-      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`
+      `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`
     ).then((res) => res.json());
 
     newRows = [];
