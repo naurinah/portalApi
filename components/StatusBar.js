@@ -11,16 +11,16 @@ const StatusBar = () => {
   const [dangerApi, setDangerApi] = useState(null);
   const [sales, setSales] = useState(0);
 
-  const fetchNewCustomers = async () => {
+  const fetchTotalOrders = async () => {
     const response = await fetch(
       "https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_totalOrders.php"
     ).then((res) => res.json());
+        setTotalOrders(response[0].TotalOrders);
     
-    setNewCustomers(response[0].NewCustomers);
    
   };
 
-   const fetchTotalOrders = async () => {
+   const fetchNewCustomers = async () => {
    const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json','Authorization':'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ' }
@@ -29,7 +29,7 @@ const StatusBar = () => {
     const response = await fetch('https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
         .then(response => response.json());
      console.log(response);
-        setTotalOrders(response[0].TotalOrders);
+     setNewCustomers(response[0].NewCustomers);
 }
   
   
@@ -77,7 +77,7 @@ const StatusBar = () => {
             </h2>
           </div>
         </div>
-        {/* Shipment */}
+        {/* New Customers */}
         <div className="bg-white min-h-[7rem] w-[18rem] flex flex-1 items-center rounded-md shadow-md border-b-4 border-[#4191ff]  p-4">
           <div className="bg-[#4191ff] h-12 w-12 rounded-full flex items-center justify-center mx-4 ">
             <PermIdentityIcon className="text-white" />
@@ -93,7 +93,7 @@ const StatusBar = () => {
             </h2>
           </div>
         </div>
-        {/* Shipment */}
+        {/* Danger Apis */}
         <div className="bg-white min-h-[7rem] w-[18rem] flex flex-1 items-center rounded-md shadow-md border-b-4 border-[#f83245]  p-2">
           <div className="bg-[#f83245] h-12 w-12 rounded-full flex items-center justify-center mx-4 ">
             <ReportProblemIcon className="text-white" />
