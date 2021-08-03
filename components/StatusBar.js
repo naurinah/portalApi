@@ -21,15 +21,9 @@ const StatusBar = () => {
   };
 
    const fetchNewCustomers = async () => {
-   const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json','Authorization':'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ' }
-      
-    };
-    const response = await fetch('https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
-        .then(response => response.json());
-     console.log(response);
-     setNewCustomers(response[0].NewCustomers);
+   const requestOptions = {headers:{'Content-Type': 'application/json','Authorization':'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ'}};
+   const response = await fetch('https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions).then(response => response.json());
+    setNewCustomers(response[0].NewCustomers);
 }
   
   
