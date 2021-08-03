@@ -318,7 +318,7 @@ export default function CustomerModal({ show, onHide, acno }) {
                           <TableCell>{row.Last_Hit}</TableCell>
                           <Router>
                             <TableCell className="">
-                              <Link to={"/details/" + row.id}>{row.action}</Link>
+                              <Link to={"/details/" + row.acno}>{row.action}</Link>
                             </TableCell>
                             <Switch>
                               <Route
