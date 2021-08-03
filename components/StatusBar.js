@@ -26,7 +26,7 @@ const StatusBar = () => {
         headers: { 'Content-Type': 'application/json','Authorization':'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ' }
       
     };
-    const response = await fetch('http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
+    const response = await fetch('https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
         .then(response => response.json());
      console.log(response);
         setTotalOrders(response[0].TotalOrders);
