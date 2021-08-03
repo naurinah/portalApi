@@ -318,11 +318,11 @@ export default function CustomerModal({ show, onHide, acno }) {
                           <TableCell>{row.Last_Hit}</TableCell>
                           <Router>
                             <TableCell className="">
-                              <Link to={"/user/" + row.id}>{row.action}</Link>
+                              <Link to={"/details/" + row.id}>{row.action}</Link>
                             </TableCell>
                             <Switch>
                               <Route
-                                path="/user/:id"
+                                path="/details/:id"
                                 component={CustomerMoreDetails}
                               />
                             </Switch>
