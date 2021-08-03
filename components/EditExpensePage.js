@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
-import { BrowserRouter as Router, Link, Route, Switch,useParams } from "react-router-dom";
+
 import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -17,8 +17,8 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Modals from "./Modals";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SearchBar from "material-ui-search-bar";
-
+// import SearchBar from "material-ui-search-bar";
+// const [searched, setSearched] = React.useState("");
 function createData(Name, Address, Cell, Email) {
   return { Name, Address, Cell, Email };
 }
@@ -50,10 +50,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "Name", numeric: false, disablePadding: false, label: "Name" },
-  { id: "Address", numeric: false, disablePadding: false, label: "Address" },
-  { id: "Cell", numeric: true, disablePadding: false, label: "Cell" },
-  { id: "Email", numeric: false, disablePadding: false, label: "Email" },
+  { id: "Name", numeric: false, disablePadding: false, label: "NAME" },
+  { id: "Address", numeric: false, disablePadding: false, label: "ADDRESS" },
+  { id: "Cell", numeric: true, disablePadding: false, label: "CELL" },
+  { id: "Email", numeric: false, disablePadding: false, label: "EMAIL" },
 ];
 
 function EnhancedTableHead(props) {
@@ -94,12 +94,11 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  // onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -158,99 +157,73 @@ export default function EditExpensePage({
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [originalRows, setOriginalRows] = React.useState([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalAcno, setModalAcno] = React.useState("");
   const [apis, setApis] = React.useState(null);
   const [rows, setRows] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const fetchEditExpensePage = async (ac) => {
+  const fetchEditExpensePage = async (id) => {
+    console.log(
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail[id].php?acno=${id}`
+    );
+    let newRows = rows;
 
-const response = await fetch(
-//   `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
-  `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
- ).then((res) => res.json());
+    const response = await fetch(
+      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`
+    ).then((res) => res.json());
+
+    newRows = [];
+    if (newRows === []) {
+      newRows = [
+        createData(
+          response.detail[0]["Name"],
+          response.detail[0]["Address"],
+          response.detail[0]["Cell"] === null ? "---" : response.detail[0]["Cell"],
+          response.detail[0]["Email"]
+        ),
+      ];
+    } else {
+      newRows = [
+        createData(
+          response.detail[0]["Name"],
+          response.detail[0]["Address"],
+          response.detail[0]["Cell"] === null ? "---" : response.detail[0]["Cell"],
+          response.detail[0]["Email"]
+        ),
+      ];
+    }
+
+    setRows(newRows);
+    setOriginalRows(newRows);
+    setIsLoading(false);
   };
 
-  const [originalRows, setOriginalRows] = React.useState([]);
-  const [searched, setSearched] = React.useState("");
-
-  const requestSearch = (searchedVal) => {
-    const filteredRowsNo = originalRows.filter((row) => {
-      return row.no.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    const filteredRowsName = originalRows.filter((row) => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    //console.log(filteredRowsNo);
-    setRows([...new Set([...filteredRowsNo, ...filteredRowsName])]);
-  };
-  const cancelSearch = () => {
-    setSearched("");
-    requestSearch(searched);
-  };
-
-  React.useEffect(async () => {
-    if (reload) {
+  useEffect(async () => {
+    if (acno !== undefined) {
       setIsLoading(true);
-      await fetchEditExpensePage();
-      setIsLoading(false);
-      setReload(false);
-    }
-  }, [reload]);
-
-  React.useEffect(() => {
-    if (apis) {
-      setOriginalRows([]);
-      let newRows = [];
-      apis.map((a) => {
-        newRows.push(
-          createData(a["Name"], a["Address"], a["Cell"], a["Email"])
-        );
-      });
-      setRows(newRows);
-      setOriginalRows(newRows);
+      setRows([]);
+      let acSplit = [""];
+      acSplit = acno.split(",");
+      if (acSplit !== undefined) {
+        acSplit.map(async (a) => {
+          if (a !== "") {
+            await fetchEditExpensePage(a);
+          }
+        });
+      }
       setIsLoading(false);
     }
-  }, [apis]);
-
+  }, [acno]);
   React.useEffect(async () => {
     await fetchEditExpensePage();
-  }, []);
+  }, [acno]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -261,11 +234,6 @@ const response = await fetch(
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -280,9 +248,7 @@ const response = await fetch(
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-           
-          </Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter"></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {isLoading ? (
@@ -291,13 +257,13 @@ const response = await fetch(
             </div>
           ) : (
             <Paper className={classes.paper}>
-              <div className="flex justify-between items-center mb-[1rem]">
+              {/* <div className="flex justify-between items-center mb-[1rem]">
                 <SearchBar
                   value={searched}
                   onChange={(searchVal) => requestSearch(searchVal)}
                   onCancelSearch={() => cancelSearch()}
                 />
-              </div>
+              </div> */}
               <TableContainer>
                 <Table
                   className={classes.table}
@@ -357,5 +323,3 @@ const response = await fetch(
     </div>
   );
 }
-
-
