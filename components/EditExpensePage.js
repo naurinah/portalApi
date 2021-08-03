@@ -174,15 +174,10 @@ export default function EditExpensePage({
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchEditExpensePage = async (ac) => {
-//     let {id} = useParams();
-//     console.log(id);
-//     console.log( `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`);
-// const response = await fetch(
-      
-     `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+
+const response = await fetch(
+  `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
  ).then((res) => res.json());
- 
-    
   };
 
   const [originalRows, setOriginalRows] = React.useState([]);
@@ -523,7 +518,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 let no = 0;
-export default function EditExpensePage({ reload, setReload,show,onHide, acno,}) {
+export default function EditExpensePage({ reload, setReload,show,onHide, acno}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
