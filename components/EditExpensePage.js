@@ -167,7 +167,8 @@ export default function EditExpensePage({
   const fetchEditExpensePage = async (ac) => {
 
 const response = await fetch(
-  `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+//   `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${ac}`
+  `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
  ).then((res) => res.json());
   };
 
