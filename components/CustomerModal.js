@@ -201,7 +201,7 @@ export default function CustomerModal({ show, onHide, acno }) {
             <AddCircleOutlineIcon
               className="cursor-pointer"
               onClick={() => {
-                setModalAcno(${ac});
+                setModalAcno(ac);
                 setModalShow(true);
               }}
             />
