@@ -11,15 +11,29 @@ const StatusBar = () => {
   const [dangerApi, setDangerApi] = useState(null);
   const [sales, setSales] = useState(0);
 
-  const fetchTotalOrders = async () => {
+  const fetchNewCustomers = async () => {
     const response = await fetch(
       "https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_totalOrders.php"
     ).then((res) => res.json());
     
     setNewCustomers(response[0].NewCustomers);
-    setTotalOrders(response[0].TotalOrders);
+   
   };
 
+   const fetchTotalOrders = async () => {
+   const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Authorization', 'Basic Qmx1ZUV4QXBpUG9ydGFsOjEyMzQ'; }
+      
+    };
+    const response = await fetch('http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_newCustomerCount.php', requestOptions)
+        .then(response => response.json());
+     console.log(response);
+        setTotalOrders(response[0].TotalOrders);
+}
+  
+  
+  
   const fetchDangerApi = async () => {
     const response = await fetch(
       "https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_tophits.php"
