@@ -300,7 +300,7 @@ export default function CustomerMoreDetails({
                 </Table>
               </TableContainer>
               <TablePagination
-                rowsPerPageOptions={[25, 50, 100, 150]}
+                rowsPerPageOptions={[5,10,15]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
