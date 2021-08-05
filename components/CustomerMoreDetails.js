@@ -165,17 +165,11 @@ export default function CustomerMoreDetails({
   const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchCustomerMoreDetails = async (id) => {
-    console.log(
-      `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail[id].php?acno=${id}`
-    );
     let newRows = rows;
-
     const response = await fetch(
       `http://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail[id].php?acno=${id}`
     ).then((res) => res.json());
-    console.log(response);
-
-    newRows = [];
+        newRows = [];
     if (newRows === []) {
       newRows = [
         createData(
