@@ -174,7 +174,7 @@ export default function CustomerModal({ show, onHide, acno }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [originalRows, setOriginalRows] = React.useState([]);
   const [apis, setApis] = React.useState(null);
   const [rows, setRows] = React.useState([]);
@@ -339,7 +339,7 @@ export default function CustomerModal({ show, onHide, acno }) {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[25, 50, 100, 150]}
+              rowsPerPageOptions={[5,10,15]}
               component="div"
               count={rows.length}
               rowsPerPage={rowsPerPage}
