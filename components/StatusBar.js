@@ -78,8 +78,10 @@ const StatusBar = () => {
           <div className="bg-[#4191ff] h-12 w-12 rounded-full flex items-center justify-center mx-4 ">
             <PermIdentityIcon className="text-white" />
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1 ">NEW CUSTOMERS (This Week)</p>
+          <div className="flex">
+            <p className="text-sm text-gray-600 mb-1 ">NEW CUSTOMERS
+            <p className="text-[#1bc943]">(This Week)</p>
+            </p>
             <h2 className="text-[#4191ff] font-bold text-4xl">
               <CurrencyFormat
                 value={newCustomers}
