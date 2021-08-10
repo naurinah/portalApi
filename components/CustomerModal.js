@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomerModal({ show, onHide, acno }) {
+export default function CustomerModal({ show, onHide, acno}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -189,6 +189,8 @@ export default function CustomerModal({ show, onHide, acno }) {
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
     ).then((res) => res.json());
+   
+    
     newRows = [];
     if (newRows === []) {
       response.map((a) => {
@@ -253,6 +255,8 @@ export default function CustomerModal({ show, onHide, acno }) {
       
     }
   }, [acno]);
+ 
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
