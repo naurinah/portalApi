@@ -185,6 +185,7 @@ export default function CustomerModal({ show, onHide, acno }) {
   
   const fetchAccount = async (ac) => {
     let newRows = rows;
+    
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customerApi.php?acno=${ac}`
     ).then((res) => res.json());
@@ -228,15 +229,16 @@ export default function CustomerModal({ show, onHide, acno }) {
         );
       });
     }
-
+    setIsLoading(true);
     setRows(newRows);
     setOriginalRows(newRows);
-    setIsLoading(false);
+   
+  
   };
 
   useEffect(async () => {
+    //setIsLoading(true);
     if (acno !== undefined) {
-      setIsLoading(true);
       setRows([]);
       let acSplit = [""];
       acSplit = acno.split(",");
@@ -245,9 +247,10 @@ export default function CustomerModal({ show, onHide, acno }) {
           if (a !== "") {
             await fetchAccount(a);
           }
+          setIsLoading(false);
         });
       }
-      setIsLoading(false);
+      
     }
   }, [acno]);
 
