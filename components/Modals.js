@@ -21,6 +21,7 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+
 function createData(acno, total_Hits, Last_Hit, action) {
   return { acno, total_Hits, Last_Hit, action };
 }
@@ -144,6 +145,9 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 const useStyles = makeStyles((theme) => ({
+  display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2)},
   root: {
     width: "100%",
   },
@@ -165,9 +169,10 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  
 }));
 
-export default function Modals({ show, onHide, acno }) {
+export default function Modals({ reload, setReload,show, onHide, acno}) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -181,11 +186,13 @@ export default function Modals({ show, onHide, acno }) {
   const [modalAcno, setModalAcno] = React.useState("");
   const ac = "";
 
-  const fetchAccount = async (ac) => {
+  const fetchModals = async (ac) => {
     let newRows = rows;
+    
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_customer.php?api_no=${ac}`
     ).then((res) => res.json());
+   
 
     newRows = [];
     if (newRows === []) {
@@ -223,28 +230,33 @@ export default function Modals({ show, onHide, acno }) {
         );
       });
     }
-
+    setIsLoading(true);
     setRows(newRows);
     setOriginalRows(newRows);
-    setIsLoading(false);
+    
   };
 
-  useEffect(async () => {
+  React.useEffect(async () => {
+    
     if (acno !== undefined) {
-      setIsLoading(true);
       setRows([]);
       let acSplit = [""];
       acSplit = acno.split(",");
       if (acSplit !== undefined) {
         acSplit.map(async (a) => {
           if (a !== "") {
-            await fetchAccount(a);
+            await fetchModals(a);
           }
+          setIsLoading(false);
         });
       }
-      setIsLoading(false);
+      
     }
   }, [acno]);
+  React.useEffect(async () => {
+    setIsLoading(true);
+    await fetchModals();
+  }, [reload]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -265,6 +277,8 @@ export default function Modals({ show, onHide, acno }) {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
+    <>
+    
     <Modal
       show={show}
       onHide={onHide}
@@ -356,5 +370,7 @@ export default function Modals({ show, onHide, acno }) {
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
+   
+    </>
   );
 }
