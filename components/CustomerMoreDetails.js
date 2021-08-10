@@ -19,8 +19,8 @@ import Modals from "./Modals";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import SearchBar from "material-ui-search-bar";
 // const [searched, setSearched] = React.useState("");
-function createData(Name, Address, Cell, Email) {
-  return { Name, Address, Cell, Email };
+function createData(account_name, account_address, account_cell, account_email) {
+  return { account_name, account_address, account_cell, account_email };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -50,10 +50,10 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "Name", numeric: false, disablePadding: false, label: "NAME" },
-  { id: "Address", numeric: false, disablePadding: false, label: "ADDRESS" },
-  { id: "Cell", numeric: true, disablePadding: false, label: "CELL" },
-  { id: "Email", numeric: false, disablePadding: false, label: "EMAIL" },
+  { id: "account_name", numeric: false, disablePadding: false, label: "NAME" },
+  { id: "account_address", numeric: false, disablePadding: false, label: "ADDRESS" },
+  { id: "account_cell", numeric: true, disablePadding: false, label: "CELL" },
+  { id: "account_email", numeric: false, disablePadding: false, label: "EMAIL" },
 ];
 
 function EnhancedTableHead(props) {
@@ -166,40 +166,39 @@ export default function CustomerMoreDetails({
 
   const fetchCustomerMoreDetails = async (id) => {
     let newRows = rows;
+    
     const response = await fetch(
       `https://bigazure.com/api/json_v4/dashboard/API_PORTAL_API/api_accountDetail.php?acno=${id}`
     ).then((res) => res.json());
-    console.log(response);
-
+   
     newRows = [];
     if (newRows === []) {
       newRows = [
         createData(
-          response.detail[0]["Name"],
-          response.detail[0]["Address"],
-          response.detail[0]["Cell"] === null ? "---" : response.detail[0]["Cell"],
-          response.detail[0]["Email"]
+          response["account_name"],
+          response["account_address"],
+          response["account_cell"],
+          response["account_email"],
         ),
       ];
     } else {
       newRows = [
         createData(
-          response.detail[0]["Name"],
-          response.detail[0]["Address"],
-          response.detail[0]["Cell"] === null ? "---" : response.detail[0]["Cell"],
-          response.detail[0]["Email"]
+          response["account_name"],
+          response["account_address"],
+          response["account_cell"],
+          response["account_email"],
         ),
       ];
     }
-
+    setIsLoading(true);
     setRows(newRows);
     setOriginalRows(newRows);
-    setIsLoading(false);
   };
 
   useEffect(async () => {
     if (acno !== undefined) {
-      setIsLoading(true);
+     
       setRows([]);
       let acSplit = [""];
       acSplit = acno.split(",");
@@ -208,14 +207,16 @@ export default function CustomerMoreDetails({
           if (a !== "") {
             await fetchCustomerMoreDetails(a);
           }
+          setIsLoading(false);
         });
       }
-      setIsLoading(false);
     }
   }, [acno]);
   React.useEffect(async () => {
+    setIsLoading(true);
     await fetchCustomerMoreDetails();
-  }, [acno]);
+  }, [reload]);
+
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -286,10 +287,10 @@ export default function CustomerMoreDetails({
 
                         return (
                           <TableRow hover tabIndex={-1} key={row.acno}>
-                            <TableCell>{row.Name}</TableCell>
-                            <TableCell>{row.Address}</TableCell>
-                            <TableCell>{row.Cell}</TableCell>
-                            <TableCell>{row.Email}</TableCell>
+                            <TableCell>{row.account_name}</TableCell>
+                            <TableCell>{row.account_address}</TableCell>
+                            <TableCell>{row.account_cell}</TableCell>
+                            <TableCell>{row.account_email}</TableCell>
                           </TableRow>
                         );
                       })}
