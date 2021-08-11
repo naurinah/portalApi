@@ -17,8 +17,8 @@ import Paper from "@material-ui/core/Paper";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-function createData(api_no, api_name, api_url, total_Hits, Last_Hit, action) {
-  return { api_no, api_name, api_url, total_Hits, Last_Hit, action };
+function createData(api_no, api_name, api_url, total_Hits, Last_Hit, Details) {
+  return { api_no, api_name, api_url, total_Hits, Last_Hit, Details };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -74,10 +74,10 @@ const headCells = [
     label: "LAST HIT",
   },
   {
-    id: "action",
+    id: "Details",
     numeric: false,
     disablePadding: false,
-    label: "ACTION",
+    label: "DETAILS",
   },
 ];
 
@@ -118,7 +118,6 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -314,10 +313,10 @@ export default function CustomerModal({ show, onHide, acno}) {
                   {stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
+                      // const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
-                        <TableRow hover tabIndex={-1} key={row.ac}>
+                        <TableRow hover tabIndex={-1} key={row.acno}>
                           <TableCell>{row.api_no}</TableCell>
                           <TableCell>{row.api_name}</TableCell>
                           <TableCell>{row.api_url}</TableCell>
@@ -325,11 +324,11 @@ export default function CustomerModal({ show, onHide, acno}) {
                           <TableCell>{row.Last_Hit}</TableCell>
                           <Router>
                             <TableCell className="">
-                              <Link to={"/details/" + row.id}>{row.action}</Link>
+                              <Link to={"/details/" + row.api_name}>{row.Details}</Link>
                             </TableCell>
                             <Switch>
                               <Route
-                                path="/details/:id"
+                                path="/details/:api_name"
                                 component={CustomerMoreDetails}
                               />
                             </Switch>
