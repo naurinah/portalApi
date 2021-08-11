@@ -19,8 +19,8 @@ import Modals from "./Modals";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // import SearchBar from "material-ui-search-bar";
 // const [searched, setSearched] = React.useState("");
-function createData(account_name, account_address, account_cell, account_email) {
-  return { account_name, account_address, account_cell, account_email };
+function createData(account_name, account_city, account_cell, account_email) {
+  return { account_name, account_city, account_cell, account_email };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -51,7 +51,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "account_name", numeric: false, disablePadding: false, label: "NAME" },
-  { id: "account_address", numeric: false, disablePadding: false, label: "ADDRESS" },
+  { id: "account_city", numeric: false, disablePadding: false, label: "CITY" },
   { id: "account_cell", numeric: true, disablePadding: false, label: "CELL" },
   { id: "account_email", numeric: false, disablePadding: false, label: "EMAIL" },
 ];
@@ -69,7 +69,7 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -177,7 +177,7 @@ export default function EditExpensePage({
       newRows = [
         createData(
           response["account_name"],
-          response["account_address"],
+          response["account_city"],
           response["account_cell"],
           response["account_email"],
         ),
@@ -186,7 +186,7 @@ export default function EditExpensePage({
       newRows = [
         createData(
           response["account_name"],
-          response["account_address"],
+          response["account_city"],
           response["account_cell"],
           response["account_email"],
         ),
@@ -284,12 +284,12 @@ export default function EditExpensePage({
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((row, index) => {
-                        const labelId = `enhanced-table-checkbox-${index}`;
+                        // const labelId = `enhanced-table-checkbox-${index}`;
 
                         return (
                           <TableRow hover tabIndex={-1} key={row.acno}>
                           <TableCell>{row.account_name}</TableCell>
-                          <TableCell>{row.account_address}</TableCell>
+                          <TableCell>{row.account_city}</TableCell>
                           <TableCell>{row.account_cell}</TableCell>
                           <TableCell>{row.account_email}</TableCell>
                         </TableRow>
