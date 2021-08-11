@@ -22,8 +22,8 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-function createData(acno, total_Hits, Last_Hit, action) {
-  return { acno, total_Hits, Last_Hit, action };
+function createData(acno, total_Hits, Last_Hit, Details) {
+  return { acno, total_Hits, Last_Hit, Details };
 }
 
 function descendingComparator(a, b, orderBy) {
@@ -72,10 +72,10 @@ const headCells = [
     label: "LAST HIT",
   },
   {
-    id: "action",
+    id: "Details",
     numeric: false,
     disablePadding: false,
-    label: "ACTION",
+    label: "DETAILS",
   },
 ];
 
@@ -316,7 +316,7 @@ export default function Modals({ reload, setReload,show, onHide, acno}) {
                   {stableSort(rows, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
+                      // const labelId = `enhanced-table-checkbox-${index}`;
 
                       return (
                         <>
@@ -324,19 +324,21 @@ export default function Modals({ reload, setReload,show, onHide, acno}) {
                             <TableCell>{row.acno}</TableCell>
                             <TableCell>{row.total_Hits}</TableCell>
                             <TableCell>{row.Last_Hit}</TableCell>
-                            <Router>
-                              <TableCell className="">
-                                <Link to={"/user/" + row.id}>
-                                  {row.action}
+                           
+                              <TableCell>
+                              <Router>
+                                <Link to={"/user/" + row.acno}>
+                                  {row.Details}
                                 </Link>
-                              </TableCell>
-                              <Switch>
+                                <Switch>
                                 <Route
-                                  path="/user/:id"
+                                  path="/user/:acno"
                                   component={EditExpensePage}
                                 />
                               </Switch>
                             </Router>
+                              </TableCell>
+                            
                           </TableRow>
                         </>
                       );
